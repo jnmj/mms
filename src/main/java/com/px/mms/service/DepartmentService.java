@@ -13,10 +13,12 @@ public interface DepartmentService {
 
 	void deleteDepartmentById(String id);
 
-	void updateDepartment(Department department);
+	void updateDepartment(String id, String name);
 
 	Department findDepartmentById(String id);
 
+	boolean isDepartmentExist(String name);
+	
 	PageInfo<Department> findDepartmentByPage(int pageNum, int pageSize);
 
 }

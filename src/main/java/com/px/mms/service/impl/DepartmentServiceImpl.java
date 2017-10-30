@@ -4,6 +4,8 @@ package com.px.mms.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import javax.management.InstanceAlreadyExistsException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +30,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	@Transactional
 	public void addDepartment(String name) {
+		
 		Department department = new Department();
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		department.setId(id);
 		department.setName(name);
-		mapper.insert(department);		
+		int ret = mapper.insert(department);		
 	}
 	
 	@Override
@@ -43,7 +46,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 	
 	@Override
 	@Transactional
-	public void updateDepartment(Department department) {
+	public void updateDepartment(String id, String name) {
+		Department department = new Department();
+		department.setId(id);
+		department.setName(name);
 		mapper.updateByPrimaryKey(department);
 	}
 	
@@ -60,4 +66,15 @@ public class DepartmentServiceImpl implements DepartmentService {
 		List<Department> list = mapper.selectByExample(example);
 		return new PageInfo<>(list);
 	}
+	
+	@Override
+	public boolean isDepartmentExist(String name) {
+		DepartmentExample example = new DepartmentExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andNameEqualTo(name);
+		int count = mapper.countByExample(example);
+		return count==0?false:true;
+	}
+	
+	
 }
