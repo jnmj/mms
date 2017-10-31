@@ -35,7 +35,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		department.setId(id);
 		department.setName(name);
-		int ret = mapper.insert(department);		
+		mapper.insert(department);		
 	}
 	
 	@Override
@@ -46,10 +46,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	
 	@Override
 	@Transactional
-	public void updateDepartment(String id, String name) {
-		Department department = new Department();
-		department.setId(id);
-		department.setName(name);
+	public void updateDepartment(Department department) {
 		mapper.updateByPrimaryKey(department);
 	}
 	
@@ -76,5 +73,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return count==0?false:true;
 	}
 	
+	@Override
+	public List<Department> findAllDepartment(){
+		DepartmentExample example = new DepartmentExample();
+		example.setOrderByClause("convert(name using gbk) asc");
+		return mapper.selectByExample(example);
+	}
 	
 }

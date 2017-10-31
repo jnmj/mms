@@ -13,7 +13,7 @@ public interface DepartmentService {
 
 	void deleteDepartmentById(String id);
 
-	void updateDepartment(String id, String name);
+	void updateDepartment(Department department);
 
 	Department findDepartmentById(String id);
 
@@ -21,4 +21,5 @@ public interface DepartmentService {
 	
 	PageInfo<Department> findDepartmentByPage(int pageNum, int pageSize);
 
+	List<Department> findAllDepartment();
 }

@@ -51,14 +51,14 @@ public class DepartmentController {
 	public String isDepartmentExist(String name) {
 		boolean ret = service.isDepartmentExist(name);
 		if(ret) {
-			return "²¿ÃÅÒÑ´æÔÚ";
+			return "éƒ¨é—¨å·²å­˜åœ¨";
 		}
 		return "";
 	}
 	
 	@RequestMapping("/update")
-	public String updateDepartment(String id, String name) {
-		service.updateDepartment(id, name);
+	public String updateDepartment(Department department) {
+		service.updateDepartment(department);
 		return "redirect:scan";
 	}
 }

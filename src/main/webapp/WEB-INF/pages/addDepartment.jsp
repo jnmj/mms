@@ -26,15 +26,27 @@
 		</ol>
 
 		<div style="width: 50%">
-			<form action="${pageContext.request.contextPath}/department/add"
-				class="form-signin" method="post">
-				<input id="name" name="name" type="text" id="inputDepartment"
-					class="form-control" placeholder="部门名称" required autofocus>
-				<br>
-				<button id="btn_add" class="btn btn-sm btn-primary pull-right"
-					style="padding-left: 20px; padding-right: 20px" type="submit">添加</button>
+			<form id="form-add" 
+				action="${pageContext.request.contextPath}/department/add"
+				class="form-horizontal" method="post">
+				<div id="form-group-add" class="form-group has-feedback" style="margin-bottom: 0px">
+					<label for="input-add" class="col-sm-3 control-label">部门名</label>
+					<div class="col-sm-8">
+						<input name="name" type="text" class="form-control" id="input-name"
+							placeholder="请输入部门名" required autofocus > 
+							<span id="span-icon" class="glyphicon form-control-feedback"></span>
+							<span id="hint"
+							style="color: red; visibility: hidden; padding-left:5px">提示信息</span>
+					</div>
+
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-3 col-sm-8">
+						<button id="btn-add" type="submit" class="btn btn-sm btn-primary pull-right"
+						style="padding-left: 20px; padding-right: 20px">添加</button>
+					</div>
+				</div>
 			</form>
-			<span id="hint" style="color: red; margin-left: 10px; display: inline-block;"></span>
 		</div>
 
 	</div>
@@ -49,24 +61,59 @@
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-	$('#name').bind("input propertychange", function(){
+	$("#input-name").bind("input propertychange", function(){
+		$(this).val($(this).val().replace(/\s/g,""));
+	})
+	
+	$("#input-name").blur(function(){
+		if($('#input-name').val()==''){
+			showAsNormal();
+			return;
+		}
 		$.ajax({
-			url:"${pageContext.request.contextPath}/department/isExist",
-			type:"POST",
-			data: "name="+$(this).val(),
-			dataType: "text",
-			success: function(msg){
-				$('#hint').html(msg);
-				if(msg==''){
-					$('#btn_add').removeClass("disabled");
-					$('#btn_add').removeAttr("disabled");
-				}else{
-					$('#btn_add').addClass("disabled");
-					$('#btn_add').attr("disabled", "true");
+			url : "${pageContext.request.contextPath}/department/isExist",
+			type : "POST",
+			data : "name=" + $('#input-name').val(),
+			dataType : "text",
+			success : function(msg) {
+				if (msg == '') {
+					showAsOK();
+				} else {
+					showAsError(msg);
 				}
 			}
-			
 		});
-	} );
+	});
+	
+	$('#form-add').submit(function(){
+		if($('#form-group-add').hasClass("has-error")){
+			return false;
+		}
+	});
+	
+	function showAsNormal(){
+		$('#hint').css("visibility", "hidden");
+		$('#form-group-add').removeClass("has-error");
+		$('#form-group-add').removeClass("has-success");
+		$('#span-icon').removeClass("glyphicon-remove");
+		$('#span-icon').removeClass("glyphicon-ok");
+	}
+	function showAsOK(){
+		$('#hint').css("visibility", "hidden");
+		$('#form-group-add').removeClass("has-error");
+		$('#form-group-add').addClass("has-success");
+		$('#span-icon').removeClass("glyphicon-remove");
+		$('#span-icon').addClass("glyphicon-ok");
+	}
+	
+	function showAsError(msg){
+		$('#hint').html(msg);
+		$('#hint').css("visibility", "visible");
+		$('#form-group-add').removeClass("has-success");
+		$('#form-group-add').addClass("has-error");
+		$('#span-icon').removeClass("glyphicon-ok");
+		$('#span-icon').addClass("glyphicon-remove");
+	}
+	
 </script>
 </html>

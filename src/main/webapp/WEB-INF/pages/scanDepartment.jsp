@@ -27,8 +27,8 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>部门名</th>
-						<th style="padding-left: 233px">操作</th>
+						<th style="width: 284px">部门名</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -40,6 +40,8 @@
 									data-toggle="modal" data-target="#editDepartmentDialog">
 										修改<span class="glyphicon glyphicon-pencil"></span>
 									</button>
+									<span style="display:none">${item.id }</span>
+									
 							</a> <a style="text-decoration: none"
 								href="${pageContext.request.contextPath}/department/delete?id=${item.id}">
 									<button type="button" class="btn btn-warning btn-xs">
@@ -106,21 +108,24 @@
 					<form action="${pageContext.request.contextPath}/department/update" class="form-horizontal" id="editDepartmentForm"
 						name="editDepartmentForm" method="POST">
 
-						<div class="form-group">
+						<div id="form-group-modify" class="form-group has-feedback" style="margin-bottom:0px">
 							<label class="control-label col-sm-3" for="input-name">
 								部门名 </label>
 							<div class="col-sm-7">
 								<input type="text" class="form-control" id="input-name"
-									name="name" required> <span id="hint"
-									style="color: red; visibility: hidden">提示信息</span>
+									name="name" required> 
+									<span id="span-icon" class="glyphicon form-control-feedback"></span>
+									<span id="hint"
+									style="color: red; visibility: hidden; padding-left:5px">提示信息</span>
 							</div>
 						</div>
+						<input id="input-id" name="id" style="display:none" />
 					</form>
 				</div>
 				<div class="modal-footer"
 					style="border-top-width: 0px; padding-top: 0px">
-					<button id="btn-confirm" type="submit" class="btn btn-primary">确定</button>
-					<button class="btn btn-default" data-dismiss="modal">取消</button>
+					<button form="editDepartmentForm" id="btn-confirm" type="submit" class="btn btn-primary" style="padding-left:20px; padding-right:20px">确定</button>
+					<button class="btn btn-default" data-dismiss="modal" style="padding-left:20px; padding-right:20px">取消</button>
 				</div>
 			</div>
 		</div>
@@ -135,52 +140,79 @@
 <script type="text/javascript">
 	var oldName;
 	
+	$("#input-name").bind("input propertychange", function(){
+		$(this).val($(this).val().replace(/\s/g,""));
+	})
+	
 	$('.btn-modify').bind("click", function(){
 		$("#input-name").val($(this).parents("td").prev().text());
+		$("#input-id").val($(this).next().text());
 		oldName = $("#input-name").val();
 	});
 	
 	$("#editDepartmentDialog").on("shown.bs.modal",function(){
 		$("#input-name").select();
-		$('#hint').css("visibility", "hidden");
 	});
 	
-	$('#input-name').bind("input propertychange", function(){
+	$("#editDepartmentDialog").on("hidden.bs.modal",function(){
+		showAsNormal();
+	});
+	
+	$("#input-name").blur(function(){
+		if($('#input-name').val()==''){
+			showAsNormal();
+			return;
+		}
 		if($('#input-name').val()==oldName){
-			$('#hint').css("visibility", "hidden");
-			$('#btn-confirm').removeClass("disabled");
-			$('#btn-confirm').removeAttr("disabled");
+			showAsOK();
 			return;
 		}
 		$.ajax({
-			url:"${pageContext.request.contextPath}/department/isExist?",
+			url:"${pageContext.request.contextPath}/department/isExist",
 			type:"POST",
-			data: "name="+$(this).val(),
+			data: "name="+$('#input-name').val(),
 			dataType: "text",
 			success: function(msg){
-				if(msg==''){
-					$('#hint').css("visibility", "hidden");
-					$('#btn-confirm').removeClass("disabled");
-					$('#btn-confirm').removeAttr("disabled");
-				}else{
-					$('#hint').html(msg);
-					$('#hint').css("visibility", "visible");
-					$('#btn-confirm').addClass("disabled");
-					$('#btn-confirm').attr("disabled", "true");
+				if (msg == '') {
+					showAsOK();
+				} else {
+					showAsError(msg);
 				}
 			}
-			
 		});
-	} );
+	});
 	
-	$('#btn-confirm').click(function(){
-		if($('#input-name').val()==oldName){
-			$("#editDepartmentDialog").modal("hide");
-			return;
-		}else{
-			$("#editDepartmentForm").submit();
-			$("#editDepartmentDialog").modal("hide");
+	$('#editDepartmentForm').submit(function(){
+		if($('#form-group-modify').hasClass("has-error")){
+			return false;
 		}
-	})
+		if($('#input-name').val()==oldName){
+			$("#editDepartmentDialog").modal('hide');
+			return false;
+		}
+	});
+	
+	function showAsNormal(){
+		$('#hint').css("visibility", "hidden");
+		$('#form-group-modify').removeClass("has-error");
+		$('#form-group-modify').removeClass("has-success");
+		$('#span-icon').removeClass("glyphicon-remove");
+		$('#span-icon').removeClass("glyphicon-ok");
+	}
+	function showAsOK(){
+		$('#hint').css("visibility", "hidden");
+		$('#form-group-modify').removeClass("has-error");
+		$('#form-group-modify').addClass("has-success");
+		$('#span-icon').removeClass("glyphicon-remove");
+		$('#span-icon').addClass("glyphicon-ok");
+	}
+	function showAsError(msg){
+		$('#hint').html(msg);
+		$('#hint').css("visibility", "visible");
+		$('#form-group-modify').removeClass("has-success");
+		$('#form-group-modify').addClass("has-error");
+		$('#span-icon').removeClass("glyphicon-ok");
+		$('#span-icon').addClass("glyphicon-remove");
+	}
 </script>
 </html>

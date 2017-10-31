@@ -19,7 +19,7 @@
 						<ul id="manage-menu" class="nav nav-list collapse in">  
 							<li ><a href="${pageContext.request.contextPath}/department/add">&nbsp;添加部门</a></li> 
 							<li ><a href="${pageContext.request.contextPath}/department/scan">&nbsp;查看部门</a></li> 
-							<li ><a href="#">&nbsp;添加员工</a></li>
+							<li ><a href="${pageContext.request.contextPath}/user/add">&nbsp;添加员工</a></li>
 							<li ><a href="#">&nbsp;搜索员工</a></li>
 						</ul> 
 					</li>
