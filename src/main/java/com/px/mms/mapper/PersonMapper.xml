@@ -5,10 +5,9 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="phone" jdbcType="INTEGER" property="phone" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="role" jdbcType="INTEGER" property="role" />
-    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="department_id" jdbcType="VARCHAR" property="departmentId" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, password, phone, email, role, status, department_id
+    id, name, password, phone, email, role, department_id
   </sql>
   <select id="selectByExample" parameterType="com.px.mms.domain.PersonExample" resultMap="BaseResultMap">
     select
@@ -105,10 +104,10 @@
   <insert id="insert" parameterType="com.px.mms.domain.Person">
     insert into person (id, name, password, 
       phone, email, role, 
-      status, department_id)
+      department_id)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{departmentId,jdbcType=VARCHAR})
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, 
+      #{departmentId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.px.mms.domain.Person">
     insert into person
@@ -131,9 +130,6 @@
       <if test="role != null">
         role,
       </if>
-      <if test="status != null">
-        status,
-      </if>
       <if test="departmentId != null">
         department_id,
       </if>
@@ -149,16 +145,13 @@
         #{password,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
-        #{phone,jdbcType=INTEGER},
+        #{phone,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
       <if test="role != null">
         #{role,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
       </if>
       <if test="departmentId != null">
         #{departmentId,jdbcType=VARCHAR},
@@ -184,16 +177,13 @@
         password = #{record.password,jdbcType=VARCHAR},
       </if>
       <if test="record.phone != null">
-        phone = #{record.phone,jdbcType=INTEGER},
+        phone = #{record.phone,jdbcType=VARCHAR},
       </if>
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
       </if>
       <if test="record.role != null">
         role = #{record.role,jdbcType=INTEGER},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=INTEGER},
       </if>
       <if test="record.departmentId != null">
         department_id = #{record.departmentId,jdbcType=VARCHAR},
@@ -208,10 +198,9 @@
     set id = #{record.id,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       role = #{record.role,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=INTEGER},
       department_id = #{record.departmentId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -227,16 +216,13 @@
         password = #{password,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
-        phone = #{phone,jdbcType=INTEGER},
+        phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="role != null">
         role = #{role,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="departmentId != null">
         department_id = #{departmentId,jdbcType=VARCHAR},
@@ -248,11 +234,36 @@
     update person
     set name = #{name,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       role = #{role,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
       department_id = #{departmentId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectUserWithDepartment" resultMap="ResultMapWithDepartment">
+  	select * from person p
+  	<choose>
+  		<when test="sortBy==2">
+  			order by convert(name using gbk)
+  		</when>
+  		<when test="sortBy==3">
+  			order by convert((select name from department where id=p.department_id) using gbk)
+  		</when>
+  		<when test="sortBy==4">
+  			order by role
+  		</when>
+  		
+  	</choose>
+  </select>  
+  <resultMap id="ResultMapWithDepartment" type="com.px.mms.domain.Person">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="role" jdbcType="INTEGER" property="role" />
+    <result column="department_id" jdbcType="VARCHAR" property="departmentId" />
+    <association property="department" column="department_id" select="com.px.mms.dao.DepartmentMapper.selectByPrimaryKey"/>
+  </resultMap>
 </mapper>

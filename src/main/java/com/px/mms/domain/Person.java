@@ -7,17 +7,25 @@ public class Person {
 
     private String password;
 
-    private Integer phone;
+    private String phone;
 
     private String email;
 
     private Integer role;
 
-    private Integer status;
-
     private String departmentId;
 
-    public String getId() {
+    private Department department;
+    
+    public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -41,12 +49,12 @@ public class Person {
         this.password = password == null ? null : password.trim();
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
-        this.phone = phone;
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public String getEmail() {
@@ -63,14 +71,6 @@ public class Person {
 
     public void setRole(Integer role) {
         this.role = role;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public String getDepartmentId() {

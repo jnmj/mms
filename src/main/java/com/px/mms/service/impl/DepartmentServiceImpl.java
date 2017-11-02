@@ -13,12 +13,12 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.px.mms.constant.Constant;
 import com.px.mms.dao.DepartmentMapper;
 import com.px.mms.domain.Department;
 import com.px.mms.domain.DepartmentExample;
 import com.px.mms.domain.DepartmentExample.Criteria;
 import com.px.mms.service.DepartmentService;
-import com.px.mms.domain.ServiceResult;
 
 
 @Service
@@ -56,10 +56,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 	
 	@Override
-	public PageInfo<Department> findDepartmentByPage(int pageNum, int pageSize){
-		PageHelper.startPage(pageNum, pageSize);
+	public PageInfo<Department> findDepartmentByPage(Integer pageNum){
+		PageHelper.startPage(pageNum, Constant.pageSize);
 		DepartmentExample example = new DepartmentExample();
-		example.setOrderByClause("convert(name using gbk) asc");
+		example.setOrderByClause("convert(name using gbk) ");
 		List<Department> list = mapper.selectByExample(example);
 		return new PageInfo<>(list);
 	}

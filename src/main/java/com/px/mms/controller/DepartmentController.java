@@ -1,6 +1,7 @@
 package com.px.mms.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class DepartmentController {
 	private DepartmentService service;
 	
 	@RequestMapping("/add")
-	public String addDepartment(@RequestParam(required=false)String name) {
+	public String addDepartment(String name) {
 		if(name!=null) {
 			service.addDepartment(name);
 		}
@@ -33,11 +34,17 @@ public class DepartmentController {
 	}
 	
 	@RequestMapping("/scan")
-	public String scanDepartment(Model model, @RequestParam(required=false)Integer pageNum) {
+	public String scanDepartment(Model model, Integer pageNum) {
 		pageNum=(pageNum==null?1:pageNum);
-		PageInfo<Department> pageInfo = service.findDepartmentByPage(pageNum, Constant.pageSize);
+		PageInfo<Department> pageInfo = service.findDepartmentByPage(pageNum);
 		model.addAttribute("pageInfo", pageInfo);
 		return "scanDepartment";
+	}
+	
+	@RequestMapping("/getAll")
+	@ResponseBody
+	public List<Department> getAllDepartment() {
+		return service.findAllDepartment();
 	}
 	
 	@RequestMapping("/delete")
@@ -46,7 +53,7 @@ public class DepartmentController {
 		return "redirect:scan";
 	}
 	
-	@RequestMapping(value="isExist", produces="text/plain;charset=UTF-8")
+	@RequestMapping(value="/isExist", produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String isDepartmentExist(String name) {
 		boolean ret = service.isDepartmentExist(name);

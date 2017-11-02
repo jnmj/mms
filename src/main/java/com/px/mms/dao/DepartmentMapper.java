@@ -4,8 +4,6 @@ import com.px.mms.domain.Department;
 import com.px.mms.domain.DepartmentExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
 
 public interface DepartmentMapper {
     int countByExample(DepartmentExample example);

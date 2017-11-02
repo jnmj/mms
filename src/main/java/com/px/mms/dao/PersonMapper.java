@@ -27,4 +27,7 @@ public interface PersonMapper {
     int updateByPrimaryKeySelective(Person record);
 
     int updateByPrimaryKey(Person record);
+    
+    List<Person> selectUserWithDepartment(@Param(value="sortBy")Integer sortBy);
+    
 }

@@ -113,7 +113,7 @@
 								部门名 </label>
 							<div class="col-sm-7">
 								<input type="text" class="form-control" id="input-name"
-									name="name" required> 
+									maxlength="24" name="name" required> 
 									<span id="span-icon" class="glyphicon form-control-feedback"></span>
 									<span id="hint"
 									style="color: red; visibility: hidden; padding-left:5px">提示信息</span>
@@ -132,17 +132,23 @@
 	</div>
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
+<script src="${pageContext.request.contextPath}/js/custom.js"></script>
+
 <script type="text/javascript">
 	var oldName;
 	
-	$("#input-name").bind("input propertychange", function(){
+	/*$("#input-name").bind("input propertychange", function(){
 		$(this).val($(this).val().replace(/\s/g,""));
-	})
+	});*/
+	
+	$("#input-name").bind("input propertychange", function(){
+		replaceAndSetPos($(this).get(0),/\s/g,'');
+	});
 	
 	$('.btn-modify').bind("click", function(){
 		$("#input-name").val($(this).parents("td").prev().text());
@@ -160,7 +166,7 @@
 	
 	$("#input-name").blur(function(){
 		if($('#input-name').val()==''){
-			showAsNormal();
+			showAsError("请输入部门名");
 			return;
 		}
 		if($('#input-name').val()==oldName){
@@ -183,11 +189,29 @@
 	});
 	
 	$('#editDepartmentForm').submit(function(){
-		if($('#form-group-modify').hasClass("has-error")){
+		if($('#input-name').val()==''){
+			showAsError("请输入部门名");
 			return false;
 		}
 		if($('#input-name').val()==oldName){
-			$("#editDepartmentDialog").modal('hide');
+			showAsOK();
+			return false;
+		}
+		var ret;
+		$.ajax({
+			url : "${pageContext.request.contextPath}/department/isExist",
+			type : "POST",
+			data : "name=" + $('#input-name').val(),
+			dataType : "text",
+			async: false,
+			success : function(msg) {
+				ret = msg;
+			}
+		});
+		if (ret == '') {
+			showAsOK();
+		} else {
+			showAsError(ret);
 			return false;
 		}
 	});

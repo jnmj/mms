@@ -33,7 +33,7 @@
 					<label for="input-add" class="col-sm-3 control-label">部门名</label>
 					<div class="col-sm-8">
 						<input name="name" type="text" class="form-control" id="input-name"
-							placeholder="请输入部门名" required autofocus > 
+							maxlength="24" placeholder="请输入部门名" required autofocus>
 							<span id="span-icon" class="glyphicon form-control-feedback"></span>
 							<span id="hint"
 							style="color: red; visibility: hidden; padding-left:5px">提示信息</span>
@@ -55,19 +55,24 @@
 
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
+<script src="${pageContext.request.contextPath}/js/custom.js"></script>
+
 <script type="text/javascript">
-	$("#input-name").bind("input propertychange", function(){
+	/*$("#input-name").bind("input propertychange", function(){
 		$(this).val($(this).val().replace(/\s/g,""));
-	})
+	});*/
+	$("#input-name").bind("input propertychange", function(){
+		replaceAndSetPos($(this).get(0),/\s/g,'');
+	});
 	
 	$("#input-name").blur(function(){
 		if($('#input-name').val()==''){
-			showAsNormal();
+			showAsError("请输入部门名");
 			return;
 		}
 		$.ajax({
@@ -86,7 +91,25 @@
 	});
 	
 	$('#form-add').submit(function(){
-		if($('#form-group-add').hasClass("has-error")){
+		if($('#input-name').val()==''){
+			showAsError("请输入部门名");
+			return false;
+		}
+		var ret;
+		$.ajax({
+			url : "${pageContext.request.contextPath}/department/isExist",
+			type : "POST",
+			data : "name=" + $('#input-name').val(),
+			dataType : "text",
+			async: false,
+			success : function(msg) {
+				ret = msg;
+			}
+		});
+		if (ret == '') {
+			showAsOK();
+		} else {
+			showAsError(ret);
 			return false;
 		}
 	});
@@ -115,5 +138,7 @@
 		$('#span-icon').addClass("glyphicon-remove");
 	}
 	
+	
 </script>
+
 </html>

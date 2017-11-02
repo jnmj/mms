@@ -19,7 +19,7 @@ public interface DepartmentService {
 
 	boolean isDepartmentExist(String name);
 	
-	PageInfo<Department> findDepartmentByPage(int pageNum, int pageSize);
+	PageInfo<Department> findDepartmentByPage(Integer pageNum);
 
 	List<Department> findAllDepartment();
 }
