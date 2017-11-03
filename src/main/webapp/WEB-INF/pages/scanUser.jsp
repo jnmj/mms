@@ -9,7 +9,17 @@
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet">
+<style type="text/css">
+.reduce-margin {
+	margin-bottom: 6px
+}
 
+.err-info {
+	color: red;
+	padding-left: 5px;
+	visibility: hidden
+}
+</style>
 </head>
 <body style="padding-top: 70px;">
 
@@ -52,12 +62,14 @@
 							<td id="td-phone">${item.phone}</td>
 							<td id="td-email">${item.email}</td>
 							<td id="td-department-name">${item.department.name}</td>
+							<td id="td-department-id" style="display:none">${item.departmentId}</td>
 							<td id="td-role">${item.role==0?"管理员":"用户"}</td>
 							<td><a style="text-decoration: none" href="#">
 									<button type="button" class="btn-modify btn btn-primary btn-xs"
 										data-toggle="modal" data-target="#dialog-editUser">
 										修改<span class="glyphicon glyphicon-pencil"></span>
 									</button>
+									
 
 
 							</a> <a style="text-decoration: none"
@@ -114,24 +126,24 @@
 
 	<div class="modal " id="dialog-editUser" data-backdrop="static"
 		data-keyboard="false">
-		<div class="modal-dialog" style="width: 40%; margin-top: 40px">
+		<div class="modal-dialog" style="width: 32%; margin-top: 40px">
 			<div class="modal-content">
 				<div class="modal-header" style="padding: 6px; padding-right: 8px">
 					<button type="button" class="close" data-dismiss="modal">
 						<span>&times;</span>
 					</button>
-					<h4 class="modal-title">修改部门</h4>
+					<h4 class="modal-title">修改员工信息</h4>
 				</div>
 				<div class="modal-body" style="padding-bottom: 0px">
 
 					<form id="form-editUser"
-						action="${pageContext.request.contextPath}/user/add"
+						action="${pageContext.request.contextPath}/user/update"
 						class="form-horizontal" role="form" method="post">
 						<div class="form-group has-feedback reduce-margin">
 							<label for="input-id" class="col-sm-3 control-label">工号</label>
 							<div class="col-sm-7">
 								<input type="text" class="form-control" id="input-id" name="id"
-									maxlength="10" placeholder="请输入10位工号" required disabled>
+									maxlength="10" placeholder="请输入10位工号" required readonly="readonly" >
 								<span id="span-icon-id" class="glyphicon form-control-feedback"></span>
 								<span class="err-info">提示信息</span>
 							</div>
@@ -148,28 +160,7 @@
 							</div>
 
 						</div>
-						<div class="form-group has-feedback reduce-margin">
-							<label for="input-password" class="col-sm-3 control-label">密码</label>
-							<div class="col-sm-7">
-								<input type="password" class="form-control" id="input-password"
-									maxlength="16" name="password" placeholder="请输入6-16位密码"
-									required> <span id="span-icon-password"
-									class="glyphicon form-control-feedback"></span> <span
-									class="err-info">提示信息</span>
-							</div>
-
-						</div>
-						<div class="form-group has-feedback reduce-margin">
-							<label for="input-password2" class="col-sm-3 control-label">确认密码</label>
-							<div class="col-sm-7">
-								<input type="password" class="form-control" id="input-password2"
-									maxlength="16" name="password2" placeholder="请确认密码" required
-									disabled> <span id="span-icon-password2"
-									class="glyphicon form-control-feedback"></span> <span
-									class="err-info">提示信息</span>
-							</div>
-
-						</div>
+						
 						<div class="form-group has-feedback reduce-margin">
 							<label for="input-phone" class="col-sm-3 control-label">手机号</label>
 							<div class="col-sm-7">
@@ -204,19 +195,30 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group" style="margin-bottom: 12px">
 							<label for="select-department" class="col-sm-3 control-label">部门</label>
 							<div class="col-sm-7" style="width: 44%">
 								<select name="departmentId" class="form-control"
 									id="select-department">
-									
+
 								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-7">
+								<div class="checkbox" style="padding-top:0px">
+									<label class="control-label"> <input type="checkbox" name="resetPassword" value="1"><font
+									style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    								font-size: 14px; color: #333; font-weight: bold">重置密码</font>
+									</label>
+								</div>
 							</div>
 						</div>
 					</form>
 				</div>
+				
 				<div class="modal-footer"
-					style="border-top-width: 0px; padding-top: 0px">
+					style="border-top-width: 0px">
 					<button form="form-editUser" id="btn-confirm" type="submit"
 						class="btn btn-primary"
 						style="padding-left: 20px; padding-right: 20px">确定</button>
@@ -238,54 +240,187 @@
 <script src="${pageContext.request.contextPath}/js/custom.js"></script>
 
 <script type="text/javascript">
-		var oldName;
-		
-		var sortSelector = "#btn-group-sort button:nth-child("+${sortBy}+")";
-		$(sortSelector).click();
-		
-		$("#btn-group-sort button").each(function(i){
-			$(this).bind("click", function(){
-				window.location.href="${pageContext.request.contextPath}/user/scan?sortBy="+(i+1);
-			});
-		});
 
-		/****************************************/
-		
-		$("#input-name").bind("input propertychange", function() {
-			replaceAndSetPos($(this).get(0), /\s/g, '');
-		});
+	var sortBy = ${sortBy};
 
-		$('.btn-modify').bind("click", function() {
-			
-			
-			$("form input[name='id']").val($(this).parents("td").siblings("#td-id").html());
-			$("form input[name='name']").val($(this).parents("td").siblings("#td-name").html());
-			$("form input[name='phone']").val($(this).parents("td").siblings("#td-phone").html());
-			$("form input[name='email']").val($(this).parents("td").siblings("#td-email").html());
-			$("form select[name='role']").val($(this).parents("td").siblings("#td-role").html());
-			
-			$.ajax({
-				url : "${pageContext.request.contextPath}/department/getAll",
-				dataType : "text",
-				success : function(msg) {
-					jsonData = JSON.parse(msg);
-					for(x in jsonData){
-						$("form select[name='departmentId']").append("<option value='"+jsonData[x].id+"'>"+jsonData[x].name+"</option>")
-					}
-				}
-			});
-			$("form select[name='departmentId']").val($(this).parents("td").siblings("#td-department-name").html());
-			
-		});
+	var isMouseOnButton = false;
+	
+	$("#btn-group-sort button").bind("mouseenter", function(){
+		isMouseOnButton = true;
+	});
+	
+	$("#btn-group-sort button")
+			.each(
+					function(i) {
+						$(this)
+								.bind(
+										"click",
+										function() {
+											if(isMouseOnButton==true){
+												window.location.href = "${pageContext.request.contextPath}/user/scan?sortBy="
+													+ (i + 1);
+												isMouseOnButton=false;
+											}
+											return true;
+										});
+					});
 
-		$("#editDepartmentDialog").on("hidden.bs.modal", function() {
-			showAsNormal();
-		});
+	
+	$("#btn-group-sort button:nth-child("+sortBy+")").click();
+	/****************************************/
 
-		
+	$('.btn-modify')
+			.bind(
+					"click",
+					function() {
+						
+						$("form input[type='checkbox']").removeAttr("checked");
+						
+						$("form input[name='id']")
+								.val(
+										$(this).parents("td")
+												.siblings("#td-id").html());
+						$("form input[name='name']").val(
+								$(this).parents("td").siblings("#td-name")
+										.html());
+						$("form input[name='phone']").val(
+								$(this).parents("td").siblings("#td-phone")
+										.html());
+						$("form input[name='email']").val(
+								$(this).parents("td").siblings("#td-email")
+										.html());
+						$("form select[name='role']").val(
+								$(this).parents("td").siblings("#td-role")
+										.html() == "用户" ? 1 : 0);
 
-		
+						$.ajax({
+									url : "${pageContext.request.contextPath}/department/getAll",
+									dataType : "text",
+									success : function(msg) {
+										jsonData = JSON.parse(msg);
+										for (x in jsonData) {
+											$(
+													"form select[name='departmentId']")
+													.append(
+															"<option value='"+jsonData[x].id+"'>"
+																	+ jsonData[x].name
+																	+ "</option>");
+											$("form select[name='departmentId']").val(
+													$(this).parents("td").siblings(
+															"#td-department-id").html());
+										}
+									}.bind(this)
+								});
+						
+					});
 
-		
-	</script>
+	$("#dialog-editUser").on("hidden.bs.modal", function() {
+		showAsNormal($("form :input[name='name']"));
+		showAsNormal($("form :input[name='phone']"));
+		showAsNormal($("form :input[name='email']"));
+		$("#btn-group-sort button:nth-child("+sortBy+")").click();
+	});
+
+	$("form :input").bind("input propertychange", function() {
+		replaceAndSetPos($(this).get(0), /\s/g, '');
+
+		if ($(this).attr("name") == "phone") {
+			replaceAndSetPos($(this).get(0), /[^\d]/g, '');
+		}
+	})
+
+	$("form :input")
+			.bind(
+					"blur",
+					function() {
+						if ($(this).val() == '') {
+							showAsError($(this), $(this).attr("placeholder"));
+							return;
+						}
+						switch ($(this).attr("name")) {
+						case "name":
+							showAsOK($(this));
+							break;
+						case "phone":
+							if (!(/^1[34578]\d{9}$/.test($(this).val()))) {
+								showAsError($(this), $(this)
+										.attr("placeholder"));
+								return;
+							}
+							showAsOK($(this));
+							break;
+						case "email":
+							if (!(/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+									.test($(this).val()))) {
+								showAsError($(this), $(this)
+										.attr("placeholder"));
+								return;
+							}
+							showAsOK($(this));
+							break;
+						default:
+						}
+					});
+
+	$('#form-editUser')
+			.submit(
+					function() {
+						var status = true;
+
+						if ($("form :input[name='name']").val() == '') {
+							showAsError($("form :input[name='name']"), $(
+									"form :input[name='name']").attr(
+									"placeholder"));
+							status = false;
+						} else {
+							showAsOK($("form :input[name='name']"));
+						}
+
+						if (!(/^1[34578]\d{9}$/.test($(
+								"form :input[name='phone']").val()))) {
+							showAsError($("form :input[name='phone']"), $(
+									"form :input[name='phone']").attr(
+									"placeholder"));
+							status = false;
+						} else {
+							showAsOK($("form :input[name='phone']"));
+						}
+
+						if (!(/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+								.test($("form :input[name='email']").val()))) {
+							showAsError($("form :input[name='email']"), $(
+									"form :input[name='email']").attr(
+									"placeholder"));
+							status = false;
+						} else {
+							showAsOK($("form :input[name='email']"));
+						}
+
+						return status;
+					});
+
+	function showAsNormal(obj) {
+		obj.next().next().css("visibility", "hidden");
+		obj.next().removeClass("glyphicon-remove");
+		obj.next().removeClass("glyphicon-ok");
+		obj.parents(".form-group").removeClass("has-error");
+		obj.parents(".form-group").removeClass("has-success");
+	}
+	function showAsOK(obj) {
+		obj.next().next().css("visibility", "hidden");
+		obj.next().removeClass("glyphicon-remove");
+		obj.next().addClass("glyphicon-ok");
+		obj.parents(".form-group").removeClass("has-error");
+		obj.parents(".form-group").addClass("has-success");
+	}
+	function showAsError(obj, msg) {
+		obj.next().next().html(msg);
+		obj.next().next().css("visibility", "visible");
+		obj.next().removeClass("glyphicon-ok");
+		obj.next().addClass("glyphicon-remove");
+		obj.parents(".form-group").removeClass("has-success");
+		obj.parents(".form-group").addClass("has-error");
+
+	}
+</script>
 </html>

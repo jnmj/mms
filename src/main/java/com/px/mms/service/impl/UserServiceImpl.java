@@ -43,6 +43,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Transactional
+	public void updateUser(Person person, Integer resetPassword) {
+		if(resetPassword!=null) {
+			person.setPassword(MD5Util.getMD5(Constant.defaultPassword));
+		}
+		mapper.updateByPrimaryKeySelective(person);
+	}
+	
+	@Override
 	public boolean isUserExist(String id) {
 		PersonExample example = new PersonExample();
 		Criteria criteria = example.createCriteria() ;

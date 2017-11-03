@@ -2,6 +2,8 @@ package com.px.mms.controller;
 
 import java.util.List;
 
+import javax.xml.registry.infomodel.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +48,12 @@ public class UserController {
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("sortBy", sortBy);
 		return "scanUser";
+	}
+	
+	@RequestMapping("/update")
+	public String updateUser(Person person, Integer resetPassword) {
+		service.updateUser(person, resetPassword);
+		return "redirect:scan";
 	}
 	
 	@RequestMapping("/delete")

@@ -12,6 +12,8 @@ public interface UserService {
 	
 	void deleteUserById(String id);
 	
+	void updateUser(Person person, Integer resetPassword);
+	
 	boolean isUserExist(String id);
 
 }
