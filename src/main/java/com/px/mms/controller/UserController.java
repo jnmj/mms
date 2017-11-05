@@ -20,6 +20,8 @@ import com.px.mms.domain.Person;
 import com.px.mms.service.DepartmentService;
 import com.px.mms.service.UserService;
 
+import junit.framework.Test;
+
 @RequestMapping("/user")
 @Controller
 public class UserController {
@@ -28,7 +30,7 @@ public class UserController {
 	private UserService service;
 	@Autowired
 	private DepartmentService departmentService;
-	
+		
 	@RequestMapping("/add")
 	public String addUser(Person person, Model model) {
 		if(person.getId()!=null) {

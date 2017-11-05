@@ -7,7 +7,11 @@
 				<a class="navbar-brand" href="#">Project Name</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li><p class="navbar-text">欢迎，${sessionScope.username}</p></li> 
+				<li><p class="navbar-text">${sessionScope.user.name}(${sessionScope.user.role==0?"管理员":"用户"})</p></li> 
+				<li><a id="logout" href="${pageContext.request.contextPath}/logout" style="padding-top:16px; padding-bottom:14px">注销</a></li> 
 			</ul>
 		</div>
 	</nav>
+
+<script>
+</script>

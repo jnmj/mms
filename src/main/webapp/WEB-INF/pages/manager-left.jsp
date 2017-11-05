@@ -17,10 +17,10 @@
 					<li>
 						<a href="#manage-menu" class="nav-header" data-toggle="collapse" style="font-size:16px"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;人事管理</a>
 						<ul id="manage-menu" class="nav nav-list collapse in">  
-							<li ><a href="${pageContext.request.contextPath}/department/add">&nbsp;添加部门</a></li> 
-							<li ><a href="${pageContext.request.contextPath}/department/scan">&nbsp;查看部门</a></li> 
-							<li ><a href="${pageContext.request.contextPath}/user/add">&nbsp;添加员工</a></li>
-							<li ><a href="${pageContext.request.contextPath}/user/scan">&nbsp;查看员工</a></li>
+							<li ><a id="a-add-department" href="${pageContext.request.contextPath}/department/add">&nbsp;添加部门</a></li> 
+							<li ><a id="a-scan-department" href="${pageContext.request.contextPath}/department/scan">&nbsp;查看部门</a></li> 
+							<li ><a id="a-add-user" href="${pageContext.request.contextPath}/user/add">&nbsp;添加员工</a></li>
+							<li ><a id="a-scan-user" href="${pageContext.request.contextPath}/user/scan">&nbsp;查看员工</a></li>
 						</ul> 
 					</li>
 				</ul>
@@ -37,3 +37,4 @@
 					</li>
 				</ul>
 			</div>
+			

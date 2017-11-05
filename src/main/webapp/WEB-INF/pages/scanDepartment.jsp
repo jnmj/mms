@@ -5,14 +5,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>index</title>
+<title>查看部门</title>
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet">
 
 </head>
-<body style="padding-top: 70px;">
-
+<body style="padding-top: 64px;">
 	<jsp:include page="head.jsp" flush="true" />
 	<jsp:include page="manager-left.jsp" flush="true" />
 

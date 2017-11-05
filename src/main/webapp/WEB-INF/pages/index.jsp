@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>添加部门</title>
+<title>xx管理系统</title>
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -21,33 +21,13 @@
 	<div style="width: 800px; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
-			<li class="active">人事管理</li>
-			<li class="active">添加部门</li>
+			<li class="active">个人中心</li>
+			<li class="active">最新通知</li>
 		</ol>
-
-		<div style="width: 50%">
-			<form id="form-add" 
-				action="${pageContext.request.contextPath}/department/add"
-				class="form-horizontal" method="post">
-				<div id="form-group-add" class="form-group has-feedback" style="margin-bottom: 0px">
-					<label for="input-add" class="col-sm-3 control-label">部门名</label>
-					<div class="col-sm-8">
-						<input name="name" type="text" class="form-control" id="input-name"
-							maxlength="24" placeholder="请输入部门名" required autofocus>
-							<span id="span-icon" class="glyphicon form-control-feedback"></span>
-							<span id="hint"
-							style="color: red; visibility: hidden; padding-left:5px">提示信息</span>
-					</div>
-
-				</div>
-				<div class="form-group">
-					<div class="col-sm-offset-3 col-sm-8">
-						<button id="btn-add" type="submit" class="btn btn-sm btn-primary pull-right"
-						style="padding-left: 20px; padding-right: 20px">添加</button>
-					</div>
-				</div>
-			</form>
-		</div>
+		
+		<h1>首页</h1>
+		
+		
 
 	</div>
 

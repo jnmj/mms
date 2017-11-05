@@ -5,10 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>index</title>
+<title>查看员工</title>
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet">
+<link href ="${pageContext.request.contextPath}/square/blue.css" rel="stylesheet">
 <style type="text/css">
 .reduce-margin {
 	margin-bottom: 6px
@@ -19,10 +20,11 @@
 	padding-left: 5px;
 	visibility: hidden
 }
+
+
 </style>
 </head>
-<body style="padding-top: 70px;">
-
+<body style="padding-top: 64px;">
 	<jsp:include page="head.jsp" flush="true" />
 	<jsp:include page="manager-left.jsp" flush="true" />
 
@@ -62,14 +64,14 @@
 							<td id="td-phone">${item.phone}</td>
 							<td id="td-email">${item.email}</td>
 							<td id="td-department-name">${item.department.name}</td>
-							<td id="td-department-id" style="display:none">${item.departmentId}</td>
+							<td id="td-department-id" style="display: none">${item.departmentId}</td>
 							<td id="td-role">${item.role==0?"管理员":"用户"}</td>
 							<td><a style="text-decoration: none" href="#">
 									<button type="button" class="btn-modify btn btn-primary btn-xs"
 										data-toggle="modal" data-target="#dialog-editUser">
 										修改<span class="glyphicon glyphicon-pencil"></span>
 									</button>
-									
+
 
 
 							</a> <a style="text-decoration: none"
@@ -143,9 +145,10 @@
 							<label for="input-id" class="col-sm-3 control-label">工号</label>
 							<div class="col-sm-7">
 								<input type="text" class="form-control" id="input-id" name="id"
-									maxlength="10" placeholder="请输入10位工号" required readonly="readonly" >
-								<span id="span-icon-id" class="glyphicon form-control-feedback"></span>
-								<span class="err-info">提示信息</span>
+									maxlength="10" placeholder="请输入10位工号" required
+									readonly="readonly"> <span id="span-icon-id"
+									class="glyphicon form-control-feedback"></span> <span
+									class="err-info">提示信息</span>
 							</div>
 
 						</div>
@@ -160,7 +163,7 @@
 							</div>
 
 						</div>
-						
+
 						<div class="form-group has-feedback reduce-margin">
 							<label for="input-phone" class="col-sm-3 control-label">手机号</label>
 							<div class="col-sm-7">
@@ -206,25 +209,27 @@
 						</div>
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-7">
-								<div class="checkbox" style="padding-top:0px">
-									<label class="control-label"> <input type="checkbox" name="resetPassword" value="1"><font
-									style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
-    								font-size: 14px; color: #333; font-weight: bold">重置密码</font>
+								<!-- <div class="checkbox" style="padding-top: 0px"> -->
+									<label class="control-label" style="padding-top:10px"> <input type="checkbox"
+										name="resetPassword" value="1"><font
+										style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; color: #333; font-weight: bold; 
+										padding-left:6px">重置密码</font>
 									</label>
-								</div>
+								<!-- </div> -->
 							</div>
 						</div>
 					</form>
 				</div>
-				
-				<div class="modal-footer"
-					style="border-top-width: 0px">
+
+				<div class="modal-footer" style="border-top-width: 0px">
 					<button form="form-editUser" id="btn-confirm" type="submit"
 						class="btn btn-primary"
 						style="padding-left: 20px; padding-right: 20px">确定</button>
 					<button class="btn btn-default" data-dismiss="modal"
 						style="padding-left: 20px; padding-right: 20px">取消</button>
 				</div>
+				
+				
 			</div>
 		</div>
 	</div>
@@ -239,16 +244,14 @@
 
 <script src="${pageContext.request.contextPath}/js/custom.js"></script>
 
-<script type="text/javascript">
+<script src="${pageContext.request.contextPath}/js/icheck.js"></script>
 
+<script type="text/javascript">
 	var sortBy = ${sortBy};
 
-	var isMouseOnButton = false;
-	
-	$("#btn-group-sort button").bind("mouseenter", function(){
-		isMouseOnButton = true;
-	});
-	
+	$("#btn-group-sort button:nth-child(" + sortBy + ")").addClass('active')
+			.siblings().removeClass('active');
+
 	$("#btn-group-sort button")
 			.each(
 					function(i) {
@@ -256,26 +259,30 @@
 								.bind(
 										"click",
 										function() {
-											if(isMouseOnButton==true){
-												window.location.href = "${pageContext.request.contextPath}/user/scan?sortBy="
+											window.location.href = "${pageContext.request.contextPath}/user/scan?sortBy="
 													+ (i + 1);
-												isMouseOnButton=false;
-											}
-											return true;
 										});
 					});
 
-	
-	$("#btn-group-sort button:nth-child("+sortBy+")").click();
 	/****************************************/
+
+	
+	
+  	$("input[type='checkbox']").iCheck({
+    checkboxClass: 'icheckbox_square-blue',
+    radioClass: 'iradio_square-blue',
+    increaseArea: '20%' // optional
+  	});
+	
+	
 
 	$('.btn-modify')
 			.bind(
 					"click",
 					function() {
-						
+
 						$("form input[type='checkbox']").removeAttr("checked");
-						
+
 						$("form input[name='id']")
 								.val(
 										$(this).parents("td")
@@ -293,7 +300,8 @@
 								$(this).parents("td").siblings("#td-role")
 										.html() == "用户" ? 1 : 0);
 
-						$.ajax({
+						$
+								.ajax({
 									url : "${pageContext.request.contextPath}/department/getAll",
 									dataType : "text",
 									success : function(msg) {
@@ -305,20 +313,25 @@
 															"<option value='"+jsonData[x].id+"'>"
 																	+ jsonData[x].name
 																	+ "</option>");
-											$("form select[name='departmentId']").val(
-													$(this).parents("td").siblings(
-															"#td-department-id").html());
+											$(
+													"form select[name='departmentId']")
+													.val(
+															$(this)
+																	.parents(
+																			"td")
+																	.siblings(
+																			"#td-department-id")
+																	.html());
 										}
 									}.bind(this)
 								});
-						
+
 					});
 
 	$("#dialog-editUser").on("hidden.bs.modal", function() {
 		showAsNormal($("form :input[name='name']"));
 		showAsNormal($("form :input[name='phone']"));
 		showAsNormal($("form :input[name='email']"));
-		$("#btn-group-sort button:nth-child("+sortBy+")").click();
 	});
 
 	$("form :input").bind("input propertychange", function() {

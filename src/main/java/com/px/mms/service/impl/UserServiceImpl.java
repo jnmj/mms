@@ -2,6 +2,8 @@ package com.px.mms.service.impl;
 
 import java.util.List;
 
+import javax.security.auth.login.LoginContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,7 @@ import com.px.mms.dao.PersonMapper;
 import com.px.mms.domain.Person;
 import com.px.mms.domain.PersonExample;
 import com.px.mms.domain.PersonExample.Criteria;
+import com.px.mms.domain.LoginResult;
 import com.px.mms.service.UserService;
 import com.px.mms.util.MD5Util;
 
@@ -21,6 +24,33 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private PersonMapper mapper;
+	
+	@Override
+	public LoginResult loginValidate(String id, String password) {
+		LoginResult result = new LoginResult();
+		Person person = mapper.selectByPrimaryKey(id);
+		if(person==null) {
+			result.setStatus(-1);
+			return result;
+		}
+		
+		PersonExample example = new PersonExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andIdEqualTo(id);
+		criteria.andPasswordEqualTo(MD5Util.getMD5(password));
+		List<Person> list = mapper.selectByExample(example);
+		if(list.size()==0) {
+			result.setStatus(-2);
+			return result;
+		}else {
+			person = list.get(0);
+			result.setId(person.getId());
+			result.setName(person.getName());
+			result.setRole(person.getRole());
+			result.setStatus(0);
+			return result;
+		}
+	}
 	
 	@Override
 	@Transactional
