@@ -5,15 +5,19 @@ import java.util.Date;
 public class Meeting {
     private String id;
 
+    private String introduction;
+
     private Date starttime;
 
     private Date endtime;
 
-    private String subscriberId;
+    private Integer status;
+
+    private String note;
+
+    private String promoterId;
 
     private String roomId;
-
-    private Integer status;
 
     public String getId() {
         return id;
@@ -21,6 +25,14 @@ public class Meeting {
 
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction == null ? null : introduction.trim();
     }
 
     public Date getStarttime() {
@@ -39,12 +51,28 @@ public class Meeting {
         this.endtime = endtime;
     }
 
-    public String getSubscriberId() {
-        return subscriberId;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setSubscriberId(String subscriberId) {
-        this.subscriberId = subscriberId == null ? null : subscriberId.trim();
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note == null ? null : note.trim();
+    }
+
+    public String getPromoterId() {
+        return promoterId;
+    }
+
+    public void setPromoterId(String promoterId) {
+        this.promoterId = promoterId == null ? null : promoterId.trim();
     }
 
     public String getRoomId() {
@@ -53,13 +81,5 @@ public class Meeting {
 
     public void setRoomId(String roomId) {
         this.roomId = roomId == null ? null : roomId.trim();
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 }

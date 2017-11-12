@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>查看部门</title>
+<title>查看会议室</title>
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -18,15 +18,15 @@
 	<div style="width: 800px; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
-			<li class="active">人事管理</li>
-			<li class="active">查看部门</li>
+			<li class="active">预定会议</li>
+			<li class="active">查看会议室</li>
 		</ol>
 
 		<div style="width: 50%">
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th style="width: 284px">部门名</th>
+						<th style="width: 284px">房间号</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -36,13 +36,13 @@
 							<td>${item.name}</td>
 							<td align="right"><a style="text-decoration: none" href="#">
 									<button type="button" class="btn-modify btn btn-primary btn-xs"
-									data-toggle="modal" data-target="#editDepartmentDialog">
+									data-toggle="modal" data-target="#editRoomDialog">
 										修改<span class="glyphicon glyphicon-pencil"></span>
 									</button>
 									<span style="display:none">${item.id }</span>
 									
 							</a> <a style="text-decoration: none"
-								href="${pageContext.request.contextPath}/department/delete?id=${item.id}">
+								href="${pageContext.request.contextPath}/room/delete?id=${item.id}">
 									<button type="button" class="btn btn-warning btn-xs">
 										删除<span class="glyphicon glyphicon-remove"></span>
 									</button>
@@ -55,11 +55,11 @@
 			<nav style="text-align: center" aria-label="Page navigation">
 				<ul class="pagination">
 					<li><a
-						href="${pageContext.request.contextPath}/department/scan?pageNum=1">首页</a></li>
+						href="${pageContext.request.contextPath}/room/scan?pageNum=1">首页</a></li>
 
 					<c:if test="${pageInfo.hasPreviousPage }">
 						<li><a
-							href="${pageContext.request.contextPath}/department/scan?pageNum=${pageInfo.pageNum-1}"
+							href="${pageContext.request.contextPath}/room/scan?pageNum=${pageInfo.pageNum-1}"
 							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 						</a></li>
 					</c:if>
@@ -68,24 +68,24 @@
 						<c:choose>
 							<c:when test="${page==pageInfo.pageNum }">
 								<li class="active"><a
-									href="${pageContext.request.contextPath}/department/scan?pageNum=${page}">${page}</a></li>
+									href="${pageContext.request.contextPath}/room/scan?pageNum=${page}">${page}</a></li>
 							</c:when>
 							<c:otherwise>
 								<li><a
-									href="${pageContext.request.contextPath}/department/scan?pageNum=${page}">${page}</a></li>
+									href="${pageContext.request.contextPath}/room/scan?pageNum=${page}">${page}</a></li>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
 
 					<c:if test="${pageInfo.hasNextPage }">
 						<li><a
-							href="${pageContext.request.contextPath}/department/scan?pageNum=${pageInfo.pageNum+1}"
+							href="${pageContext.request.contextPath}/room/scan?pageNum=${pageInfo.pageNum+1}"
 							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 						</a></li>
 					</c:if>
 
 					<li><a
-						href="${pageContext.request.contextPath}/department/scan?pageNum=${pageInfo.pages}">尾页</a></li>
+						href="${pageContext.request.contextPath}/room/scan?pageNum=${pageInfo.pages}">尾页</a></li>
 
 				</ul>
 			</nav>
@@ -93,7 +93,7 @@
 
 	</div>
 
-	<div class="modal " id="editDepartmentDialog"
+	<div class="modal " id="editRoomDialog"
 		data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog" style="width: 40%; margin-top: 150px">
 			<div class="modal-content">
@@ -101,15 +101,15 @@
 					<button type="button" class="close" data-dismiss="modal">
 						<span>&times;</span>
 					</button>
-					<h4 class="modal-title">修改部门</h4>
+					<h4 class="modal-title">修改会议室</h4>
 				</div>
 				<div class="modal-body" style="padding-bottom: 0px">
-					<form action="${pageContext.request.contextPath}/department/update" class="form-horizontal" id="editDepartmentForm"
+					<form action="${pageContext.request.contextPath}/room/update" class="form-horizontal" id="editRoomForm"
 						name="editDepartmentForm" method="POST">
 
 						<div id="form-group-modify" class="form-group has-feedback" style="margin-bottom:0px">
 							<label class="control-label col-sm-3" for="input-name">
-								部门名 </label>
+								房间号 </label>
 							<div class="col-sm-7">
 								<input type="text" class="form-control" id="input-name"
 									maxlength="24" name="name" required> 
@@ -123,7 +123,7 @@
 				</div>
 				<div class="modal-footer"
 					style="border-top-width: 0px; padding-top: 0px">
-					<button form="editDepartmentForm" id="btn-confirm" type="submit" class="btn btn-primary" style="padding-left:20px; padding-right:20px">确定</button>
+					<button form="editRoomForm" id="btn-confirm" type="submit" class="btn btn-primary" style="padding-left:20px; padding-right:20px">确定</button>
 					<button class="btn btn-default" data-dismiss="modal" style="padding-left:20px; padding-right:20px">取消</button>
 				</div>
 			</div>
@@ -155,17 +155,17 @@
 		oldName = $("#input-name").val();
 	});
 	
-	$("#editDepartmentDialog").on("shown.bs.modal",function(){
+	$("#editRoomDialog").on("shown.bs.modal",function(){
 		$("#input-name").select();
 	});
 	
-	$("#editDepartmentDialog").on("hidden.bs.modal",function(){
+	$("#editRoomDialog").on("hidden.bs.modal",function(){
 		showAsNormal();
 	});
 	
 	$("#input-name").blur(function(){
 		if($('#input-name').val()==''){
-			showAsError("请输入部门名");
+			showAsError("请输入房间号");
 			return;
 		}
 		if($('#input-name').val()==oldName){
@@ -173,7 +173,7 @@
 			return;
 		}
 		$.ajax({
-			url:"${pageContext.request.contextPath}/department/isExist",
+			url:"${pageContext.request.contextPath}/room/isExist",
 			type:"POST",
 			data: "name="+$('#input-name').val(),
 			dataType: "text",
@@ -187,9 +187,9 @@
 		});
 	});
 	
-	$('#editDepartmentForm').submit(function(){
+	$('#editRoomForm').submit(function(){
 		if($('#input-name').val()==''){
-			showAsError("请输入部门名");
+			showAsError("请输入房间号");
 			return false;
 		}
 		if($('#input-name').val()==oldName){
@@ -198,7 +198,7 @@
 		}
 		var ret;
 		$.ajax({
-			url : "${pageContext.request.contextPath}/department/isExist",
+			url : "${pageContext.request.contextPath}/room/isExist",
 			type : "POST",
 			data : "name=" + $('#input-name').val(),
 			dataType : "text",

@@ -3,7 +3,7 @@
 <mapper namespace="com.px.mms.dao.RoomMapper">
   <resultMap id="BaseResultMap" type="com.px.mms.domain.Room">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,7 +64,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name
+    id, NAME
   </sql>
   <select id="selectByExample" parameterType="com.px.mms.domain.RoomExample" resultMap="BaseResultMap">
     select
@@ -97,7 +97,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.px.mms.domain.Room">
-    insert into room (id, name)
+    insert into room (id, NAME)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.px.mms.domain.Room">
@@ -107,7 +107,7 @@
         id,
       </if>
       <if test="name != null">
-        name,
+        NAME,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -132,7 +132,7 @@
         id = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+        NAME = #{record.name,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -142,7 +142,7 @@
   <update id="updateByExample" parameterType="map">
     update room
     set id = #{record.id,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR}
+      NAME = #{record.name,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -151,14 +151,14 @@
     update room
     <set>
       <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+        NAME = #{name,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.px.mms.domain.Room">
     update room
-    set name = #{name,jdbcType=VARCHAR}
+    set NAME = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

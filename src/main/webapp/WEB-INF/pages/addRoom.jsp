@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>添加部门</title>
+<title>添加会议室</title>
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -21,19 +21,19 @@
 	<div style="width: 800px; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
-			<li class="active">人事管理</li>
-			<li class="active">添加部门</li>
+			<li class="active">会议预定</li>
+			<li class="active">添加会议室</li>
 		</ol>
 
 		<div style="width: 50%">
 			<form id="form-add" 
-				action="${pageContext.request.contextPath}/department/add"
+				action="${pageContext.request.contextPath}/room/add"
 				class="form-horizontal" method="post">
 				<div id="form-group-add" class="form-group has-feedback" style="margin-bottom: 0px">
-					<label for="input-add" class="col-sm-3 control-label">部门名</label>
+					<label for="input-add" class="col-sm-3 control-label">房间号</label>
 					<div class="col-sm-8">
 						<input name="name" type="text" class="form-control" id="input-name"
-							maxlength="24" placeholder="请输入部门名" required autofocus>
+							maxlength="24" placeholder="请输入房间号" required autofocus>
 							<span id="span-icon" class="glyphicon form-control-feedback"></span>
 							<span id="hint"
 							style="color: red; visibility: hidden; padding-left:5px">提示信息</span>
@@ -62,10 +62,9 @@
 <script src="${pageContext.request.contextPath}/js/input-control.js"></script>
 
 <script type="text/javascript">	
-	var errInfo = "请输入部门名";
-	var category = "department";	
+	var errInfo = "请输入房间号";
+	var category = "room";	
 </script>
 
 <script src="${pageContext.request.contextPath}/js/custom.js"></script>
-
 </html>

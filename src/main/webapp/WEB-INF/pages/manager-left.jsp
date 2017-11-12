@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 	
 <div class="sidebar-nav" style="display: inline-block; width: 200px">
-				<ul class="nav nav-list">
+				<ul class="nav nav-list ">
 					<li>
 						<a href="#user-menu" class="nav-header" data-toggle="collapse" style="font-size:16px"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;个人中心</a> 
 						<ul id="user-menu" class="nav nav-list collapse in">
@@ -29,10 +29,10 @@
 					<li>
 						<a href="#meeting-menu" class="nav-header" data-toggle="collapse" style="font-size:16px"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;会议预定</a>  
 						<ul id="meeting-menu" class="nav nav-list collapse in">  
-							<li ><a href="#">&nbsp;添加会议室</a></li> 
-							<li ><a href="#">&nbsp;查看会议室</a></li> 
-							<li ><a href="#">&nbsp;预定会议</a></li>
-							<li ><a href="#">&nbsp;搜索会议</a></li>
+							<li ><a href="${pageContext.request.contextPath}/room/add">&nbsp;添加会议室</a></li> 
+							<li ><a href="${pageContext.request.contextPath}/room/scan">&nbsp;查看会议室</a></li> 
+							<li ><a href="${pageContext.request.contextPath}/meeting/add">&nbsp;预定会议</a></li>
+							<li ><a href="#">&nbsp;会议审批</a></li>
 						</ul>  
 					</li>
 				</ul>

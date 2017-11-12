@@ -13,6 +13,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.px.mms.dao.DepartmentMapper;
 import com.px.mms.domain.Department;
+import com.px.mms.domain.Person;
+import com.px.mms.service.DepartmentService;
+import com.px.mms.service.UserService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)  //使用junit4进行测试  
@@ -21,17 +24,24 @@ import com.px.mms.domain.Department;
 public class Test01 {
 	
 	@Autowired
-	private DepartmentMapper departmentMapper;
+	private DepartmentService departmentService;
 
+	@Autowired
+	private UserService userService;
 	@Test
 	public void test1() {
+		for(int i=34;i<35;i++) {
+			Person person = new Person();
+			person.setId("2016110125");
+			person.setName("罗贯中");
+			person.setPassword("123456");
+			person.setPhone("13261712886");
+			person.setEmail("754737592@qq.com");
+			person.setRole(0);
+			person.setDepartmentId("a39fa73e47994a23bf3f53583e0c54f7");
+			userService.addUser(person);
+		}
 		
-		String id = UUID.randomUUID().toString().replaceAll("-", "");
-		String name = "铁道部";
-		Department department = new Department();
-		department.setId(id);
-		department.setName(name);
-		departmentMapper.insert(department);
 		
 	}
 }

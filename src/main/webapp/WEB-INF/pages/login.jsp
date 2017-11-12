@@ -74,7 +74,7 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/custom.js"></script>
+<script src="${pageContext.request.contextPath}/js/input-control.js"></script>
 
 <script type="text/javascript">
 	$("form").submit(function(){
