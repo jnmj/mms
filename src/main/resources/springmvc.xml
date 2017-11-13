@@ -14,7 +14,7 @@
     <context:component-scan base-package="com.px.mms.controller" /> 
         
     <!-- 使用默认的处理映射器和处理适配器 -->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven conversion-service="conversionService"/>
     
     <mvc:default-servlet-handler /> 
 	
@@ -29,6 +29,17 @@
 			<bean class="com.px.mms.interceptor.LoginInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
+	
+	<!-- 创建convertion-Service ，并注入dateConvert-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="dateConvert"/>
+            </set>
+        </property>
+    </bean>
+    <!-- 创建自定义日期转换规则 -->   
+    <bean id="dateConvert" class="com.px.mms.convertor.DateConvert"/>
 	
     <!-- 视图解析器 -->    
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  

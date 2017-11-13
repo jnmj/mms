@@ -97,6 +97,14 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <insert id="insertList" parameterType="java.util.List">
+    insert into person_meeting (id, person_id, meeting_id)
+    values 
+    <foreach collection="list" item="item" separator=",">
+    	(#{item.id,jdbcType=VARCHAR}, #{item.personId,jdbcType=VARCHAR}, #{item.meetingId,jdbcType=VARCHAR})
+    </foreach>
+    
+  </insert>
   <insert id="insert" parameterType="com.px.mms.domain.PersonMeeting">
     insert into person_meeting (id, person_id, meeting_id
       )

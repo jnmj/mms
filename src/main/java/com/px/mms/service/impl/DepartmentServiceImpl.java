@@ -80,4 +80,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return mapper.selectByExample(example);
 	}
 	
+	@Override
+	public List<Department> findAllDepartmentWithUser(){
+		return mapper.selectDepartmentWithUser();
+	}
 }

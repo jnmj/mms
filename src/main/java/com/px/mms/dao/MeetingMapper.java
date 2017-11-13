@@ -27,4 +27,6 @@ public interface MeetingMapper {
     int updateByPrimaryKeySelective(Meeting record);
 
     int updateByPrimaryKey(Meeting record);
+    
+    List<Meeting> selectMeetingWithUserByPromoter(String promoterId);
 }

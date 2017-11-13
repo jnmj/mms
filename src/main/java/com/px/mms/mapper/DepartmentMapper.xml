@@ -161,4 +161,27 @@
     set name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <resultMap id="ResultMapWithUser" type="com.px.mms.domain.Department">
+    <id column="d_id" jdbcType="VARCHAR" property="id" />
+    <result column="d_name" jdbcType="VARCHAR" property="name" />
+    <collection property="users" ofType="com.px.mms.domain.Person">
+    	<id column="p_id" jdbcType="VARCHAR" property="id" />
+    	<result column="p_name" jdbcType="VARCHAR" property="name" />
+    	<result column="password" jdbcType="VARCHAR" property="password" />
+    	<result column="phone" jdbcType="VARCHAR" property="phone" />
+    	<result column="email" jdbcType="VARCHAR" property="email" />
+    	<result column="role" jdbcType="INTEGER" property="role" />
+    	<result column="department_id" jdbcType="VARCHAR" property="departmentId" />
+    </collection>
+  </resultMap>
+  <select id="selectDepartmentWithUser" resultMap="ResultMapWithUser">
+  	select d.id d_id,
+  			d.name d_name,
+  			p.id p_id,
+  			p.name p_name,
+  			p.password,p.phone,p.email,p.role,p.department_id
+  			 from department d right join person p on d.id=p.department_id order by convert(d.name using gbk),
+  			 convert(p.name using gbk)
+  </select>  
 </mapper>

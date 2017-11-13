@@ -7,7 +7,7 @@
 						<a href="#user-menu" class="nav-header" data-toggle="collapse" style="font-size:16px"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;个人中心</a> 
 						<ul id="user-menu" class="nav nav-list collapse in">
 							<li><a href="#">&nbsp;最新通知</a></li>  
-							<li><a href="#">&nbsp;我的预定</a></li> 
+							<li><a href="${pageContext.request.contextPath}/meeting/myOrder">&nbsp;我的预定</a></li> 
 							<li><a href="#">&nbsp;我的会议</a></li>  
 						</ul>  
 					</li>

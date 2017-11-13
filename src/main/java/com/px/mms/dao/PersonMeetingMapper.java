@@ -27,4 +27,6 @@ public interface PersonMeetingMapper {
     int updateByPrimaryKeySelective(PersonMeeting record);
 
     int updateByPrimaryKey(PersonMeeting record);
+    
+    int insertList(List<PersonMeeting> list);
 }

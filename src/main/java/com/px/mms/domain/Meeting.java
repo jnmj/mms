@@ -1,25 +1,60 @@
 package com.px.mms.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Meeting {
     private String id;
 
     private String introduction;
 
-    private Date starttime;
+    private Date startTime;
 
-    private Date endtime;
+    private Date endTime;
 
     private Integer status;
 
-    private String note;
+    private String strStatus;
+    
+    public String getStrStatus() {
+    	switch(status){
+		case 0:
+			return "审核中";
+		case 1:
+			return "已通过";
+		case 2:
+			return "未通过";
+		}
+		return null;
+	}
+
+	private String note;
 
     private String promoterId;
 
     private String roomId;
 
-    public String getId() {
+    private Room room;
+    
+    public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	private List<Person> users;
+    
+	public List<Person> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<Person> users) {
+		this.users = users;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -35,20 +70,20 @@ public class Meeting {
         this.introduction = introduction == null ? null : introduction.trim();
     }
 
-    public Date getStarttime() {
-        return starttime;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStarttime(Date starttime) {
-        this.starttime = starttime;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEndtime() {
-        return endtime;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setEndtime(Date endtime) {
-        this.endtime = endtime;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public Integer getStatus() {

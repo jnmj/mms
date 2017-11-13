@@ -22,4 +22,7 @@ public interface DepartmentService {
 	PageInfo<Department> findDepartmentByPage(Integer pageNum);
 
 	List<Department> findAllDepartment();
+	
+	List<Department> findAllDepartmentWithUser();
+	
 }
