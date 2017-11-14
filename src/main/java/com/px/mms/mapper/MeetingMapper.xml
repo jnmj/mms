@@ -272,11 +272,17 @@
     </collection>
   </resultMap>
   
-  <select id="selectMeetingWithUserByPromoter" resultMap="resultMapWithUser"  parameterType="java.lang.String" >
-  		select
-  			p.id p_id, p.name, m.*
-  		from meeting m inner join person_meeting pm 
-  		on m.id=pm.meeting_id inner join person p on p.id=pm.person_id where m.promoter_id=#{promoterId}
-  		order by convert(p.name using gbk)
+  <select id="selectMeetingWithUserByPageByPromoter" resultMap="resultMapWithUser">
+  		select m.*, p.id p_id, p.name from
+  		(select * from meeting where promoter_id=#{0} limit #{1},#{2}) m inner join person_meeting pm 
+  		on m.id=pm.meeting_id inner join person p on p.id=pm.person_id 
+  		order by m.start_time, convert(p.name using gbk) 
+  </select>
+  
+  <select id="selectMeetingWithUserByPageByStatus" resultMap="resultMapWithUser">
+  		select m.*, p.id p_id, p.name from
+  		(select * from meeting where status=#{0} limit #{1},#{2}) m inner join person_meeting pm 
+  		on m.id=pm.meeting_id inner join person p on p.id=pm.person_id 
+  		order by m.start_time, convert(p.name using gbk) 
   </select>
 </mapper>

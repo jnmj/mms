@@ -20,7 +20,17 @@
 	
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
+			<mvc:mapping path="/"/>
+			<mvc:mapping path="/index"/>
+			<mvc:mapping path="/department/add/**"/>
+			<mvc:mapping path="/department/scan/**"/>
+			<mvc:mapping path="/user/add/**"/>
+			<mvc:mapping path="/user/scan/**"/>
+			<mvc:mapping path="/room/scan/**"/>
+			<mvc:mapping path="/room/scan/**"/>
+			<mvc:mapping path="/meeting/add/**"/>
+			<mvc:mapping path="/meeting/myOrder/**"/>
+			<mvc:mapping path="/meeting/approve/**"/>
 			<mvc:exclude-mapping path="/log*"/>  <!-- 登入登出 -->
 			<mvc:exclude-mapping path="/css/*"/>
 			<mvc:exclude-mapping path="/fonts/*"/>

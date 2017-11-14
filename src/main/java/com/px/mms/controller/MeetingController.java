@@ -19,6 +19,7 @@ import com.github.pagehelper.PageInfo;
 import com.px.mms.domain.Department;
 import com.px.mms.domain.LoginResult;
 import com.px.mms.domain.Meeting;
+import com.px.mms.domain.MyPageInfo;
 import com.px.mms.domain.Person;
 import com.px.mms.domain.Room;
 import com.px.mms.service.DepartmentService;
@@ -56,12 +57,26 @@ public class MeetingController {
 	}
 	
 	@RequestMapping("/myOrder")
-	public String toMyOrder(Model model, Integer pageNum, HttpSession session) {
+	public String myOrder(Model model, Integer pageNum, HttpSession session) {
 		pageNum=(pageNum==null?1:pageNum);
 		LoginResult user = (LoginResult) session.getAttribute("user");
-		PageInfo<Meeting> pageInfo = service.findMeetingWithUserByPromoterByPage(user.getId(),pageNum);
+		MyPageInfo<Meeting> pageInfo = service.findMeetingWithUserByPromoterByPage(user.getId(),pageNum);
 		model.addAttribute("pageInfo", pageInfo);
-		return "myOrder";
+		return "myOrderMeeting";
 	}
 	
+	@RequestMapping("/approve")
+	public String approve(Model model, Integer pageNum) {
+		pageNum=(pageNum==null?1:pageNum);
+		MyPageInfo<Meeting> pageInfo = service.findMeetingWithUserByStatusByPage(0, pageNum);
+		model.addAttribute("pageInfo", pageInfo);
+		return "approveMeeting";
+		
+	}
+	
+	@RequestMapping("/decide")
+	public String decide(Meeting meeting) {
+		service.updateMeetingStatusById(meeting);
+		return "redirect:approve";
+	}
 }

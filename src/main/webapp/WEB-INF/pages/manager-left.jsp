@@ -32,7 +32,7 @@
 							<li ><a href="${pageContext.request.contextPath}/room/add">&nbsp;添加会议室</a></li> 
 							<li ><a href="${pageContext.request.contextPath}/room/scan">&nbsp;查看会议室</a></li> 
 							<li ><a href="${pageContext.request.contextPath}/meeting/add">&nbsp;预定会议</a></li>
-							<li ><a href="#">&nbsp;会议审批</a></li>
+							<li ><a href="${pageContext.request.contextPath}/meeting/approve">&nbsp;会议审批</a></li>
 						</ul>  
 					</li>
 				</ul>

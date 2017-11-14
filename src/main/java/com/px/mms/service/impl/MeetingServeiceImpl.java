@@ -14,6 +14,9 @@ import com.px.mms.constant.Constant;
 import com.px.mms.dao.MeetingMapper;
 import com.px.mms.dao.PersonMeetingMapper;
 import com.px.mms.domain.Meeting;
+import com.px.mms.domain.MeetingExample;
+import com.px.mms.domain.MeetingExample.Criteria;
+import com.px.mms.domain.MyPageInfo;
 import com.px.mms.domain.PersonMeeting;
 import com.px.mms.service.MeetingService;
 
@@ -44,9 +47,36 @@ public class MeetingServeiceImpl implements MeetingService{
 	}
 	
 	@Override
-	public PageInfo<Meeting> findMeetingWithUserByPromoterByPage(String promoterId, Integer pageNum){
-		PageHelper.startPage(pageNum, Constant.pageSize);
-		List<Meeting> list = mapper.selectMeetingWithUserByPromoter(promoterId);
-		return new PageInfo<>(list);
+	public MyPageInfo<Meeting> findMeetingWithUserByPromoterByPage(String promoterId, Integer pageNum){
+		int pageSize = Constant.pageSize;
+		int start = (pageNum-1)*pageSize;
+		MeetingExample example = new MeetingExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andPromoterIdEqualTo(promoterId);
+		int totalCount = mapper.selectByExample(example).size();
+		
+		List<Meeting> list = mapper.selectMeetingWithUserByPageByPromoter(promoterId, start, pageSize);
+		MyPageInfo<Meeting> pageInfo = new MyPageInfo<>(pageNum, pageSize, totalCount, list);
+		return pageInfo;
+	}
+	
+	@Override
+	public MyPageInfo<Meeting> findMeetingWithUserByStatusByPage(Integer status, Integer pageNum){
+		int pageSize = Constant.pageSize;
+		int start = (pageNum-1)*pageSize;
+		MeetingExample example = new MeetingExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andStatusEqualTo(status);
+		int totalCount = mapper.selectByExample(example).size();
+		
+		List<Meeting> list = mapper.selectMeetingWithUserByPageByStatus(status, start, pageSize);
+		MyPageInfo<Meeting> pageInfo = new MyPageInfo<>(pageNum, pageSize, totalCount, list);
+		return pageInfo;
+	}
+	
+	@Override
+	@Transactional
+	public void updateMeetingStatusById(Meeting meeting) {
+		mapper.updateByPrimaryKeySelective(meeting);
 	}
 }

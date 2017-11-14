@@ -90,7 +90,7 @@
 				
 				<div class="form-group has-feedback reduce-margin"  >
 					<label class="col-sm-3 control-label">参会人员</label>
-					<div class="col-sm-7" style="height:260px; overflow:auto; border:1px solid #aaa; margin-left:16px; width: 266px">
+					<div class="col-sm-7" style="height:260px; overflow:auto; border:1px solid #bbb; border-radius:4px; margin-left:16px; width: 266px">
 						<c:forEach items="${departments}" var="department">
 							<div>
 							<input class="outerCheckbox" type="checkbox"
