@@ -1,5 +1,6 @@
 package com.px.mms.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.px.mms.domain.Department;
 import com.px.mms.domain.LoginResult;
@@ -65,6 +68,15 @@ public class MeetingController {
 		return "myOrderMeeting";
 	}
 	
+	@RequestMapping("/mine")
+	public String mine(Model model, Integer pageNum, HttpSession session) {
+		pageNum=(pageNum==null?1:pageNum);
+		LoginResult user = (LoginResult) session.getAttribute("user");
+		MyPageInfo<Meeting> pageInfo = service.findMeetingWithUserByStatusByJoinerByPage(1, user.getId(), pageNum);
+		model.addAttribute("pageInfo", pageInfo);
+		return "myMeeting";
+	}
+	
 	@RequestMapping("/approve")
 	public String approve(Model model, Integer pageNum) {
 		pageNum=(pageNum==null?1:pageNum);
@@ -74,9 +86,24 @@ public class MeetingController {
 		
 	}
 	
+	@RequestMapping("/approveRecord")
+	public String myOrder(Model model, Integer pageNum) {
+		pageNum=(pageNum==null?1:pageNum);
+		MyPageInfo<Meeting> pageInfo = service.findProcessedMeetingWithUserByPage(pageNum);
+		model.addAttribute("pageInfo", pageInfo);
+		return "approveMeetingRecord";
+	}
+	
 	@RequestMapping("/decide")
 	public String decide(Meeting meeting) {
 		service.updateMeetingStatusById(meeting);
 		return "redirect:approve";
+	}
+	
+	@RequestMapping("/validate")
+	@ResponseBody
+	public List<Meeting> validate(String id, String roomId, Date startTime, Date endTime) {
+		List<Meeting> list = service.validateDateTime(id, roomId, startTime, endTime);
+		return list;
 	}
 }

@@ -31,4 +31,10 @@ public interface MeetingMapper {
     List<Meeting> selectMeetingWithUserByPageByPromoter(String promoterId, Integer start, Integer pageSize);
 
     List<Meeting> selectMeetingWithUserByPageByStatus(Integer status, Integer start, Integer pageSize);
+    
+    List<Meeting> selectProcessedMeetingWithUserByPage(Integer start, Integer pageSize);
+    
+    List<Meeting> selectMeetingWithUserByPageByStatusByJoiner(Integer status, String joinerId, Integer start, Integer pageSize);
+    
+    int countMeetingByStatusByJoiner(Integer status, String joinId);
 }

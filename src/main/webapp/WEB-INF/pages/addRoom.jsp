@@ -21,7 +21,7 @@
 	<div style="width: 800px; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
-			<li class="active">会议预定</li>
+			<li class="active">会议管理</li>
 			<li class="active">添加会议室</li>
 		</ol>
 

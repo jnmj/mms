@@ -7,6 +7,8 @@ import com.px.mms.domain.Person;
 
 public interface UserService {
 
+	Person findUserById(String id);
+	
 	LoginResult loginValidate(String id, String password);
 	
 	void addUser(Person person);

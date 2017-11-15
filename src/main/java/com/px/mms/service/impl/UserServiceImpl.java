@@ -26,6 +26,11 @@ public class UserServiceImpl implements UserService {
 	private PersonMapper mapper;
 	
 	@Override
+	public Person findUserById(String id) {
+		return mapper.selectByPrimaryKey(id);
+	}
+	
+	@Override
 	public LoginResult loginValidate(String id, String password) {
 		LoginResult result = new LoginResult();
 		Person person = mapper.selectByPrimaryKey(id);
@@ -77,6 +82,10 @@ public class UserServiceImpl implements UserService {
 	public void updateUser(Person person, Integer resetPassword) {
 		if(resetPassword!=null) {
 			person.setPassword(MD5Util.getMD5(Constant.defaultPassword));
+		}else {
+			if(person.getPassword()!=null) {
+				person.setPassword(MD5Util.getMD5(person.getPassword()));
+			}
 		}
 		mapper.updateByPrimaryKeySelective(person);
 	}

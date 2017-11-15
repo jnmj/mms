@@ -14,7 +14,22 @@
     <context:component-scan base-package="com.px.mms.controller" /> 
         
     <!-- 使用默认的处理映射器和处理适配器 -->
-    <mvc:annotation-driven conversion-service="conversionService"/>
+    <mvc:annotation-driven conversion-service="conversionService">
+    	<!-- 处理responseBody 里面日期类型 -->  
+        <mvc:message-converters>  
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
+                <property name="objectMapper">  
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">  
+                        <property name="dateFormat">  
+                            <bean class="java.text.SimpleDateFormat">  
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm" />  
+                            </bean>  
+                        </property>  
+                    </bean>  
+                </property>  
+            </bean>  
+        </mvc:message-converters>  
+    </mvc:annotation-driven>
     
     <mvc:default-servlet-handler /> 
 	
@@ -26,12 +41,14 @@
 			<mvc:mapping path="/department/scan/**"/>
 			<mvc:mapping path="/user/add/**"/>
 			<mvc:mapping path="/user/scan/**"/>
+			<mvc:mapping path="/user/modify/**"/>
 			<mvc:mapping path="/room/scan/**"/>
 			<mvc:mapping path="/room/scan/**"/>
 			<mvc:mapping path="/meeting/add/**"/>
 			<mvc:mapping path="/meeting/myOrder/**"/>
 			<mvc:mapping path="/meeting/approve/**"/>
-			<mvc:exclude-mapping path="/log*"/>  <!-- 登入登出 -->
+			<mvc:mapping path="/meeting/approveRecord/**"/>
+			<mvc:exclude-mapping path="/log*"/> 
 			<mvc:exclude-mapping path="/css/*"/>
 			<mvc:exclude-mapping path="/fonts/*"/>
 			<mvc:exclude-mapping path="/js/*"/>

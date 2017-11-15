@@ -33,10 +33,26 @@ public class Meeting {
     private String promoterId;
 
     private String roomId;
-
+    
+    private List<Person> users;
+    
     private Room room;
     
-    public Room getRoom() {
+    private Person promoter;
+    
+    public Person getPromoter() {
+		return promoter;
+	}
+
+	public void setPromoter(Person promoter) {
+		this.promoter = promoter;
+	}
+
+	public void setStrStatus(String strStatus) {
+		this.strStatus = strStatus;
+	}
+
+	public Room getRoom() {
 		return room;
 	}
 
@@ -44,7 +60,7 @@ public class Meeting {
 		this.room = room;
 	}
 
-	private List<Person> users;
+	
     
 	public List<Person> getUsers() {
 		return users;

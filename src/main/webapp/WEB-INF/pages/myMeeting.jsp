@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>我的预定</title>
+<title>我的会议</title>
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -33,7 +33,7 @@ word-break: break-all;
 
 		<ol class="breadcrumb">
 			<li class="active">个人中心</li>
-			<li class="active">我的预定</li>
+			<li class="active">我的会议</li>
 		</ol>
 
 		<div style="width: 100%">
@@ -46,7 +46,7 @@ word-break: break-all;
 						<th class="col-md-2">结束时间</th>
 						<th class="col-md-1">参会</th>
 						<th class="col-md-1">详情</th>
-						<th class="col-md-1">状态</th>
+						
 					</tr>
 				</thead>
 				<tbody>
@@ -83,7 +83,7 @@ word-break: break-all;
 									详情<span class="glyphicon glyphicon-list-alt"></span>
 								</button>
 							</td>
-							<td class="col-md-1">${item.strStatus}</td>
+							
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -92,11 +92,11 @@ word-break: break-all;
 			<nav style="text-align: center" aria-label="Page navigation">
 				<ul class="pagination">
 					<li><a
-						href="${pageContext.request.contextPath}/meeting/myOrder?pageNum=1">首页</a></li>
+						href="${pageContext.request.contextPath}/meeting/mine?pageNum=1">首页</a></li>
 
 					<c:if test="${pageInfo.hasPreviousPage }">
 						<li><a
-							href="${pageContext.request.contextPath}/meeting/myOrder?pageNum=${pageInfo.pageNum-1}"
+							href="${pageContext.request.contextPath}/meeting/mine?pageNum=${pageInfo.pageNum-1}"
 							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 						</a></li>
 					</c:if>
@@ -105,24 +105,24 @@ word-break: break-all;
 						<c:choose>
 							<c:when test="${page==pageInfo.pageNum}">
 								<li class="active"><a
-									href="${pageContext.request.contextPath}/meeting/myOrder?pageNum=${page}">${page}</a></li>
+									href="${pageContext.request.contextPath}/meeting/mine?pageNum=${page}">${page}</a></li>
 							</c:when>
 							<c:otherwise>
 								<li><a
-									href="${pageContext.request.contextPath}/meeting/myOrder?pageNum=${page}">${page}</a></li>
+									href="${pageContext.request.contextPath}/meeting/mine?pageNum=${page}">${page}</a></li>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
 
 					<c:if test="${pageInfo.hasNextPage }">
 						<li><a
-							href="${pageContext.request.contextPath}/meeting/myOrder?pageNum=${pageInfo.pageNum+1}"
+							href="${pageContext.request.contextPath}/meeting/mine?pageNum=${pageInfo.pageNum+1}"
 							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 						</a></li>
 					</c:if>
 
 					<li><a
-						href="${pageContext.request.contextPath}/meeting/myOrder?pageNum=${pageInfo.totalPage}">尾页</a></li>
+						href="${pageContext.request.contextPath}/meeting/mine?pageNum=${pageInfo.totalPage}">尾页</a></li>
 
 				</ul>
 			</nav>

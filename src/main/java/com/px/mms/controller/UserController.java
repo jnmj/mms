@@ -2,6 +2,7 @@ package com.px.mms.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.xml.registry.infomodel.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.px.mms.domain.Department;
+import com.px.mms.domain.LoginResult;
 import com.px.mms.domain.Person;
 import com.px.mms.service.DepartmentService;
 import com.px.mms.service.UserService;
@@ -56,6 +58,19 @@ public class UserController {
 	public String updateUser(Person person, Integer resetPassword) {
 		service.updateUser(person, resetPassword);
 		return "redirect:scan";
+	}
+	
+	@RequestMapping("/modify")
+	public String modifyProfile(Person person, Model model, HttpSession session) {
+		if(person.getId()==null) {
+			LoginResult loginResult = (LoginResult) session.getAttribute("user");
+			Person user = service.findUserById(loginResult.getId());
+			model.addAttribute("user", user);
+			return "modifyProfile";
+		}else {
+			service.updateUser(person, null);
+			return "redirect: /index";
+		}
 	}
 	
 	@RequestMapping("/delete")
