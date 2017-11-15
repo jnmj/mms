@@ -47,6 +47,6 @@ public class PageController {
 	
 	@RequestMapping("/index")
 	public String toIndex(){
-		return "myMeeting";
+		return "redirect:/meeting/mine";
 	}
 }

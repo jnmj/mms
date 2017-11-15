@@ -21,4 +21,5 @@ public interface UserService {
 	
 	boolean isUserExist(String id);
 
+	Integer validatePassword(String id, String password);
 }

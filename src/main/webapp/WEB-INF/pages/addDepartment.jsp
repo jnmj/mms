@@ -14,11 +14,12 @@
 
 
 </head>
-<body style="padding-top: 64px;">
+<body style="padding-top: 64px">
+<div style="width:80%; margin:0 auto">
 	<jsp:include page="head.jsp" flush="true" />
 	<jsp:include page="manager-left.jsp" flush="true" />
 
-	<div style="width: 800px; display: inline-block; vertical-align: top">
+	<div style="width: 80%; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
 			<li class="active">人事管理</li>
@@ -51,15 +52,13 @@
 
 	</div>
 
-	
+	</div>
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-
-<script src="${pageContext.request.contextPath}/js/input-control.js"></script>
 
 <script type="text/javascript">	
 	var errInfo = "请输入部门名";

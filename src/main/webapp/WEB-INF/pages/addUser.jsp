@@ -25,16 +25,17 @@
 
 </head>
 <body style="padding-top: 64px;">
+<div style="width:80%; margin:0 auto">
 	<jsp:include page="head.jsp" flush="true" />
 	<jsp:include page="manager-left.jsp" flush="true" />
 
-	<div style="width: 800px; display: inline-block; vertical-align: top">
+	<div style="width: 80%; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
 			<li class="active">人事管理</li>
 			<li class="active">添加员工</li>
 		</ol>
-		<div style="width: 60%">
+		<div style="width: 50%">
 			<form id="form-add" action="${pageContext.request.contextPath}/user/add"
 				class="form-horizontal" role="form" method="post">
 				<div class="form-group has-feedback reduce-margin">
@@ -72,7 +73,7 @@
 					<label for="input-password2" class="col-sm-3 control-label">确认密码</label>
 					<div class="col-sm-7">
 						<input type="password" class="form-control" id="input-password2"
-							maxlength="16" name="password2" placeholder="请确认密码" required disabled>
+							maxlength="16" name="password2" placeholder="请确认密码" required>
 						<span id="span-icon-password2"
 							class="glyphicon form-control-feedback"></span> <span
 							class="err-info">提示信息</span>
@@ -135,7 +136,7 @@
 	</div>
 
 
-
+</div>
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
@@ -143,98 +144,11 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/input-control.js"></script>
 
 <script type="text/javascript">
-
-	$("form :input").bind("input propertychange", function() {
-		//$(this).val($(this).val().replace(/\s/g, ""));
-		replaceAndSetPos($(this).get(0),/\s/g,'');
-		
-		switch($(this).attr("name")){
-		case "id":
-		case "phone":
-			//$(this).val($(this).val().replace(/[^\d]/g, ""));
-			replaceAndSetPos($(this).get(0),/[^\d]/g,'');
-			break;
-		case "password":
-			if($(this).val().length>=6){
-				$("form :input[name='password2']").removeAttr("disabled");
-			}else{
-				$("form :input[name='password2']").attr("disabled", "disabled");
-				$("form :input[name='password2']").val('');
-				showAsNormal($("form :input[name='password2']"));
-			}
-			replaceAndSetPos($(this).get(0),/[\u4E00-\u9FA5]/g,'');
-			break;
-		default:
-		}
-	})
 	
-	$("form :input").bind("blur", function() {
-		if ($(this).val()=='') {
-			showAsError($(this), $(this).attr("placeholder"));
-			return;
-		}
-		switch ($(this).attr("name")){
-		case "id":
-			if($(this).val().length<10){
-				showAsError($(this), $(this).attr("placeholder") );
-				return;
-			}
-			$.ajax({
-				url : "${pageContext.request.contextPath}/user/isExist",
-				type : "POST",
-				data : "id=" + $(this).val(),
-				dataType : "text",
-				success : function(msg) {
-					if (msg == '') {
-						showAsOK($(this));
-					} else {
-						showAsError($(this), msg);
-					}
-				}.bind(this)
-			});
-			break;
-		case "name":
-			showAsOK($(this));
-			break;
-		case "password":
-			if($(this).val().length<6){
-				showAsError($(this), $(this).attr("placeholder"));
-				return;
-			}
-			showAsOK($(this));
-			if($("form :input[name='password2']").val()!=''){
-				if($("form :input[name='password2']").val()!=$(this).val()){
-					showAsError($("form :input[name='password2']"), "两次密码不一致");
-					return;
-				}
-			}
-			break;
-		case "password2":
-			if($("form :input[name='password']").val()!=$(this).val()){
-				showAsError($(this), "两次密码不一致");
-				return;
-			}
-			showAsOK($(this));
-			break;
-		case "phone":
-			if(!(/^1[34578]\d{9}$/.test($(this).val()))){
-				showAsError($(this), $(this).attr("placeholder"));
-				return;
-			}
-			showAsOK($(this));
-			break;
-		case "email":
-			if(!( /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test($(this).val()))){
-				showAsError($(this), $(this).attr("placeholder"));
-				return;
-			}
-			showAsOK($(this)); 
-			break;
-		default:
-		}
+	$("input[type='text'],input[type='password']").focus(function(){
+		showAsNormal($(this));
 	});
 	
 	$('#form-add').submit(function(){
@@ -262,32 +176,22 @@
 			}
 		}
 		
-		if($("form :input[name='name']").val()==''){
-			showAsError($("form :input[name='name']"), $("form :input[name='name']").attr("placeholder"));
-			status = false;
-		}else{
-			showAsOK($("form :input[name='name']"));
-		}
+		showAsOK($("form :input[name='name']"));
 		
-		if($("form :input[name='password']").val()==''){
+		if($("form :input[name='password']").val().length<6){
 			showAsError($("form :input[name='password']"), $("form :input[name='password']").attr("placeholder"));
 			status = false;
 		}else{
 			showAsOK($("form :input[name='password']"));
 		}
 		
-		if($("form :input[name='password2']").val()==''){
-			showAsError($("form :input[name='password2']"), $("form :input[name='password2']").attr("placeholder"));
+		if($("form :input[name='password']").val()!=$("form :input[name='password2']").val()){
+			showAsError($("form :input[name='password2']"), "两次密码不一致");
 			status = false;
 		}else{
-			if($("form :input[name='password']").val()!=$("form :input[name='password2']").val()){
-				showAsError($("form :input[name='password2']"), "两次密码不一致");
-				status = false;
-			}else{
-				showAsOK($("form :input[name='password2']"));
-			}
+			showAsOK($("form :input[name='password2']"));
 		}
-		
+	
 		if(!(/^1[34578]\d{9}$/.test($("form :input[name='phone']").val()))){
 			showAsError($("form :input[name='phone']"), $("form :input[name='phone']").attr("placeholder"));
 			status = false;

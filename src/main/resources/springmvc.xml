@@ -37,17 +37,10 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/"/>
 			<mvc:mapping path="/index"/>
-			<mvc:mapping path="/department/add/**"/>
-			<mvc:mapping path="/department/scan/**"/>
-			<mvc:mapping path="/user/add/**"/>
-			<mvc:mapping path="/user/scan/**"/>
-			<mvc:mapping path="/user/modify/**"/>
-			<mvc:mapping path="/room/scan/**"/>
-			<mvc:mapping path="/room/scan/**"/>
-			<mvc:mapping path="/meeting/add/**"/>
-			<mvc:mapping path="/meeting/myOrder/**"/>
-			<mvc:mapping path="/meeting/approve/**"/>
-			<mvc:mapping path="/meeting/approveRecord/**"/>
+			<mvc:mapping path="/department/**"/>
+			<mvc:mapping path="/user/**"/>
+			<mvc:mapping path="/room/**"/>
+			<mvc:mapping path="/meeting/**"/>
 			<mvc:exclude-mapping path="/log*"/> 
 			<mvc:exclude-mapping path="/css/*"/>
 			<mvc:exclude-mapping path="/fonts/*"/>

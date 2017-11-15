@@ -21,10 +21,11 @@
 </style>
 </head>
 <body style="padding-top: 64px;">
+<div style="width:80%; margin:0 auto">
 	<jsp:include page="head.jsp" flush="true" />
 	<jsp:include page="manager-left.jsp" flush="true" />
 
-	<div style="width: 800px; display: inline-block; vertical-align: top">
+	<div style="width: 80%; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
 			<li class="active">人事管理</li>
@@ -201,7 +202,7 @@
 			</div>
 		</div>
 	</div>
-
+</div>
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 
@@ -210,30 +211,25 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/input-control.js"></script>
 
 <script src="${pageContext.request.contextPath}/js/icheck.js"></script>
 
 <script type="text/javascript">
-	var sortBy = $
-	{
-		sortBy
-	};
+	var sortBy = ${sortBy};
+	
+	$("input[type='text']").focus(function(){
+		showAsNormal($(this));
+	});
 
-	$("#btn-group-sort button:nth-child(" + sortBy + ")").addClass('active')
-			.siblings().removeClass('active');
+	 $("#btn-group-sort button:nth-child(" + sortBy + ")").addClass('active')
+			.siblings().removeClass('active'); 
 
-	$("#btn-group-sort button")
-			.each(
-					function(i) {
-						$(this)
-								.bind(
-										"click",
-										function() {
+	$("#btn-group-sort button").each(function(i) {
+						$(this).bind("click",function() {
 											window.location.href = "${pageContext.request.contextPath}/user/scan?sortBy="
 													+ (i + 1);
-										});
-					});
+													});
+						});
 
 	/****************************************/
 
@@ -243,29 +239,14 @@
 		increaseArea : '20%' // optional
 	});
 
-	$('.btn-modify')
-			.bind(
-					"click",
-					function() {
+	$('.btn-modify').bind("click",function() {
 
 						$("form input[type='checkbox']").removeAttr("checked");
-
-						$("form input[name='id']")
-								.val(
-										$(this).parents("td")
-												.siblings("#td-id").html());
-						$("form input[name='name']").val(
-								$(this).parents("td").siblings("#td-name")
-										.html());
-						$("form input[name='phone']").val(
-								$(this).parents("td").siblings("#td-phone")
-										.html());
-						$("form input[name='email']").val(
-								$(this).parents("td").siblings("#td-email")
-										.html());
-						$("form select[name='role']").val(
-								$(this).parents("td").siblings("#td-role")
-										.html() == "用户" ? 1 : 0);
+						$("form input[name='id']").val($(this).parents("td").siblings("#td-id").html());
+						$("form input[name='name']").val($(this).parents("td").siblings("#td-name").html());
+						$("form input[name='phone']").val($(this).parents("td").siblings("#td-phone").html());
+						$("form input[name='email']").val($(this).parents("td").siblings("#td-email").html());
+						$("form select[name='role']").val($(this).parents("td").siblings("#td-role").html() == "用户" ? 1 : 0);
 
 						$.ajax({
 								url : "${pageContext.request.contextPath}/department/getAll",
@@ -289,61 +270,13 @@
 		showAsNormal($("form :input[name='email']"));
 	});
 
-	$("form :input").bind("input propertychange", function() {
-		replaceAndSetPos($(this).get(0), /\s/g, '');
-
-		if ($(this).attr("name") == "phone") {
-			replaceAndSetPos($(this).get(0), /[^\d]/g, '');
-		}
-	})
-
-	$("form :input")
-			.bind(
-					"blur",
-					function() {
-						if ($(this).val() == '') {
-							showAsError($(this), $(this).attr("placeholder"));
-							return;
-						}
-						switch ($(this).attr("name")) {
-						case "name":
-							showAsOK($(this));
-							break;
-						case "phone":
-							if (!(/^1[34578]\d{9}$/.test($(this).val()))) {
-								showAsError($(this), $(this)
-										.attr("placeholder"));
-								return;
-							}
-							showAsOK($(this));
-							break;
-						case "email":
-							if (!(/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
-									.test($(this).val()))) {
-								showAsError($(this), $(this)
-										.attr("placeholder"));
-								return;
-							}
-							showAsOK($(this));
-							break;
-						default:
-						}
-					});
-
 	$('#form-editUser')
 			.submit(
 					function() {
 						var status = true;
 
-						if ($("form :input[name='name']").val() == '') {
-							showAsError($("form :input[name='name']"), $(
-									"form :input[name='name']").attr(
-									"placeholder"));
-							status = false;
-						} else {
-							showAsOK($("form :input[name='name']"));
-						}
-
+						showAsOK($("form :input[name='name']"));
+						
 						if (!(/^1[34578]\d{9}$/.test($(
 								"form :input[name='phone']").val()))) {
 							showAsError($("form :input[name='phone']"), $(

@@ -1,32 +1,9 @@
-$("#input-name").bind("input propertychange", function(){
-		replaceAndSetPos($(this).get(0),/\s/g,'');
-	});
-	
-	$("#input-name").blur(function(){
-		if($('#input-name').val()==''){
-			showAsError(errInfo);
-			return;
-		}
-		$.ajax({
-			url : "isExist",
-			type : "POST",
-			data : "name=" + $('#input-name').val(),
-			dataType : "text",
-			success : function(msg) {
-				if (msg == '') {
-					showAsOK();
-				} else {
-					showAsError(msg);
-				}
-			}
-		});
+	$("input[type='text']").focus(function(){
+		showAsNormal();
 	});
 	
 	$('#form-add').submit(function(){
-		if($('#input-name').val()==''){
-			showAsError(errInfo);
-			return false;
-		}
+		
 		var ret;
 		$.ajax({
 			url : "isExist",

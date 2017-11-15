@@ -34,16 +34,17 @@
 </style>
 </head>
 <body style="padding-top: 64px;">
+<div style="width:80%; margin:0 auto">
 	<jsp:include page="head.jsp" flush="true" />
 	<jsp:include page="manager-left.jsp" flush="true" />
 
-	<div style="width: 800px; display: inline-block; vertical-align: top">
+	<div style="width: 80%; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
 			<li class="active">会议管理</li>
 			<li class="active">预定会议</li>
 		</ol>
-		<div style="width: 60%">
+		<div style="width: 50%">
 			<form id="form-add" autocomplete="off"
 				action="${pageContext.request.contextPath}/meeting/add"
 				class="form-horizontal" role="form" method="post">
@@ -124,7 +125,7 @@
 	</div>
 
 
-
+</div>
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
@@ -132,7 +133,6 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/input-control.js"></script>
 
 <script
 	src="${pageContext.request.contextPath}/js/bootstrap-datetimepicker.min.js"></script>

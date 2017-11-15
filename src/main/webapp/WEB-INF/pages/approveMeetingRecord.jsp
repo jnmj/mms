@@ -26,10 +26,11 @@ word-break: break-all;
 </style>
 </head>
 <body style="padding-top: 64px;">
+<div style="width:80%; margin:0 auto">
 	<jsp:include page="head.jsp" flush="true" />
 	<jsp:include page="manager-left.jsp" flush="true" />
 
-	<div style="width: 800px; display: inline-block; vertical-align: top">
+	<div style="width: 80%; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
 			<li class="active">会议管理</li>
@@ -134,7 +135,7 @@ word-break: break-all;
 
 
 
-
+</div>
 
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->

@@ -23,22 +23,23 @@
 
 </head>
 <body style="padding-top: 64px;">
+<div style="width:80%; margin:0 auto">
 	<jsp:include page="head.jsp" flush="true" />
 	<jsp:include page="manager-left.jsp" flush="true" />
 
-	<div style="width: 800px; display: inline-block; vertical-align: top">
+	<div style="width: 80%; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
 			<li class="active">个人中心</li>
 			<li class="active">修改资料</li>
 		</ol>
-		<div style="width: 60%">
+		<div style="width: 50%">
 			<div class="panel panel-default panel-primary">
 				<div class="panel-heading">${user.id }&nbsp;&nbsp;&nbsp;&nbsp;${user.name }&nbsp;&nbsp;&nbsp;&nbsp;${user.department.name }</div>
 				<div class="panel-body" style="padding-bottom:0px">
-					<form id="form-add" action="${pageContext.request.contextPath}/user/modify"
+					<form id="form-modify-contact" action="${pageContext.request.contextPath}/user/modify"
 						class="form-horizontal" role="form" method="post">
-
+						<input id="input-id-contact" name="id" style="display:none" value="${user.id}">
 						<div class="form-group has-feedback reduce-margin">
 							<label for="input-phone" class="col-sm-3 control-label">手机号</label>
 							<div class="col-sm-7">
@@ -62,7 +63,7 @@
 
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-7">
-								<button type="submit" class="btn btn-primary pull-right"
+								<button type="submit" class="btn btn-primary pull-right btn-contact"
 									style="padding-left: 26px; padding-right: 26px">确定</button>
 							</div>
 						</div>
@@ -72,16 +73,27 @@
 			
 			<div class="panel panel-default  panel-primary">
 				<div class="panel-heading">修改密码</div>
-				<div class="panel-body">
-					<form id="form-add" action="${pageContext.request.contextPath}/user/modify"
+				<div class="panel-body" style="padding-bottom:0px">
+					<form id="form-modify-password" action="${pageContext.request.contextPath}/user/modify"
 						class="form-horizontal" role="form" method="post">
+						<input id="input-id-password" name="id" style="display:none" value="${user.id}">
+						<div class="form-group has-feedback reduce-margin">
+							<label for="input-old-password" class="col-sm-3 control-label">旧密码</label>
+							<div class="col-sm-7">
+								<input type="password" class="form-control" id="input-old-password" maxlength="16"
+									 placeholder="请输入旧密码" required>
 
+								<span id="span-icon-password" class="glyphicon form-control-feedback"></span> <span
+									class="err-info">提示信息</span>
+							</div>
+
+						</div>
 
 						<div class="form-group has-feedback reduce-margin">
-							<label for="input-password" class="col-sm-3 control-label">密码</label>
+							<label for="input-password" class="col-sm-3 control-label">新密码</label>
 							<div class="col-sm-7">
 								<input type="password" class="form-control" id="input-password" maxlength="16"
-									name="password" placeholder="请输入6-16位密码" required>
+									name="password" placeholder="请输入6-16位新密码" required>
 
 								<span id="span-icon-password" class="glyphicon form-control-feedback"></span> <span
 									class="err-info">提示信息</span>
@@ -89,10 +101,10 @@
 
 						</div>
 						<div class="form-group has-feedback reduce-margin">
-							<label for="input-password2" class="col-sm-3 control-label">确认密码</label>
+							<label for="input-password2" class="col-sm-3 control-label">确认新密码</label>
 							<div class="col-sm-7">
 								<input type="password" class="form-control" id="input-password2" maxlength="16"
-									name="password2" placeholder="请确认密码" required disabled>
+									name="password2" placeholder="请确认新密码" required>
 								<span id="span-icon-password2" class="glyphicon form-control-feedback"></span> <span
 									class="err-info">提示信息</span>
 							</div>
@@ -101,7 +113,7 @@
 
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-7">
-								<button type="submit" class="btn btn-primary pull-right"
+								<button type="submit" class="btn btn-primary pull-right btn-password"
 									style="padding-left: 26px; padding-right: 26px">确定</button>
 							</div>
 						</div>
@@ -112,7 +124,7 @@
 	</div>
 
 
-
+</div>
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
@@ -120,9 +132,13 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/input-control.js"></script>
 
 <script type="text/javascript">
+
+	$("input[type='text'],input[type='password']").focus(function(){
+		showAsNormal($(this));
+	});
+
 	$("form :input").bind(
 			"input propertychange",
 			function() {
@@ -135,106 +151,17 @@
 					replaceAndSetPos($(this).get(0), /[^\d]/g, '');
 					break;
 				case "password":
-					if ($(this).val().length >= 6) {
-						$("form :input[name='password2']").removeAttr(
-								"disabled");
-					} else {
-						$("form :input[name='password2']").attr("disabled",
-								"disabled");
-						$("form :input[name='password2']").val('');
-						showAsNormal($("form :input[name='password2']"));
-					}
 					replaceAndSetPos($(this).get(0), /[\u4E00-\u9FA5]/g, '');
 					break;
 				default:
 				}
 			})
 
-	$("form :input")
-			.bind(
-					"blur",
-					function() {
-						if ($(this).val() == '') {
-							showAsError($(this), $(this).attr("placeholder"));
-							return;
-						}
-						switch ($(this).attr("name")) {
-						case "password":
-							if ($(this).val().length < 6) {
-								showAsError($(this), $(this)
-										.attr("placeholder"));
-								return;
-							}
-							showAsOK($(this));
-							if ($("form :input[name='password2']").val() != '') {
-								if ($("form :input[name='password2']").val() != $(
-										this).val()) {
-									showAsError(
-											$("form :input[name='password2']"),
-											"两次密码不一致");
-									return;
-								}
-							}
-							break;
-						case "password2":
-							if ($("form :input[name='password']").val() != $(
-									this).val()) {
-								showAsError($(this), "两次密码不一致");
-								return;
-							}
-							showAsOK($(this));
-							break;
-						case "phone":
-							if (!(/^1[34578]\d{9}$/.test($(this).val()))) {
-								showAsError($(this), $(this)
-										.attr("placeholder"));
-								return;
-							}
-							showAsOK($(this));
-							break;
-						case "email":
-							if (!(/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
-									.test($(this).val()))) {
-								showAsError($(this), $(this)
-										.attr("placeholder"));
-								return;
-							}
-							showAsOK($(this));
-							break;
-						default:
-						}
-					});
 
-	$('#form-add')
+	$('#form-modify-contact')
 			.submit(
 					function() {
 						var status = true;
-
-						if ($("form :input[name='password']").val() == '') {
-							showAsError($("form :input[name='password']"), $(
-									"form :input[name='password']").attr(
-									"placeholder"));
-							status = false;
-						} else {
-							showAsOK($("form :input[name='password']"));
-						}
-
-						if ($("form :input[name='password2']").val() == '') {
-							showAsError($("form :input[name='password2']"), $(
-									"form :input[name='password2']").attr(
-									"placeholder"));
-							status = false;
-						} else {
-							if ($("form :input[name='password']").val() != $(
-									"form :input[name='password2']").val()) {
-								showAsError($("form :input[name='password2']"),
-										"两次密码不一致");
-								status = false;
-							} else {
-								showAsOK($("form :input[name='password2']"));
-							}
-						}
-
 						if (!(/^1[34578]\d{9}$/.test($(
 								"form :input[name='phone']").val()))) {
 							showAsError($("form :input[name='phone']"), $(
@@ -256,8 +183,56 @@
 						}
 
 						return status;
-
 					});
+	
+	$('#form-modify-password')
+	.submit(
+			function() {
+				var status = true;
+				
+				$.ajax({
+					url : "${pageContext.request.contextPath}/user/validatePassword",
+					type : "POST",
+					data : "id=" + $("#input-id-password").val()+"&password="+$("#input-old-password").val(),
+					async : false,
+					success : function(msg) {
+						if (msg == 1) {
+							showAsOK($("#input-old-password"));
+						} else {
+							status = false;
+							showAsError($("#input-old-password"), "旧密码错误");
+						}
+					}
+				});
+				
+				if ($("form :input[name='password']").val().length<6) {
+					showAsError($("form :input[name='password']"), $(
+							"form :input[name='password']").attr(
+							"placeholder"));
+					status = false;
+				} else {
+					showAsOK($("form :input[name='password']"));
+				}
+
+				if ($("form :input[name='password2']").val() == '') {
+					showAsError($("form :input[name='password2']"), $(
+							"form :input[name='password2']").attr(
+							"placeholder"));
+					status = false;
+				} else {
+					if ($("form :input[name='password']").val() != $(
+							"form :input[name='password2']").val()) {
+						showAsError($("form :input[name='password2']"),
+								"两次密码不一致");
+						status = false;
+					} else {
+						showAsOK($("form :input[name='password2']"));
+					}
+				}
+
+				return status;
+			});
+
 
 	function showAsNormal(obj) {
 		obj.next().next().css("visibility", "hidden");

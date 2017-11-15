@@ -12,29 +12,30 @@
 
 </head>
 <body style="padding-top: 64px;">
+<div style="width:80%; margin:0 auto">
 	<jsp:include page="head.jsp" flush="true" />
 	<jsp:include page="manager-left.jsp" flush="true" />
 
-	<div style="width: 800px; display: inline-block; vertical-align: top">
+	<div style="width: 80%; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
 			<li class="active">会议管理</li>
 			<li class="active">查看会议室</li>
 		</ol>
 
-		<div style="width: 50%">
+		<div style="width: 40%">
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th style="width: 284px">房间号</th>
-						<th>操作</th>
+						<th class="col-md-8">房间号</th>
+						<th class="col-md-4">操作</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${pageInfo.list}" var="item">
 						<tr>
-							<td>${item.name}</td>
-							<td align="right"><a style="text-decoration: none" href="#">
+							<td class="col-md-8">${item.name}</td>
+							<td class="col-md-4"><a style="text-decoration: none" href="#">
 									<button type="button" class="btn-modify btn btn-primary btn-xs"
 									data-toggle="modal" data-target="#editRoomDialog">
 										修改<span class="glyphicon glyphicon-pencil"></span>
@@ -129,6 +130,7 @@
 			</div>
 		</div>
 	</div>
+	</div>
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
@@ -136,17 +138,12 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/input-control.js"></script>
 
 <script type="text/javascript">
 	var oldName;
 	
-	/*$("#input-name").bind("input propertychange", function(){
-		$(this).val($(this).val().replace(/\s/g,""));
-	});*/
-	
-	$("#input-name").bind("input propertychange", function(){
-		replaceAndSetPos($(this).get(0),/\s/g,'');
+	$("input[type='text']").focus(function(){
+		showAsNormal($(this));
 	});
 	
 	$('.btn-modify').bind("click", function(){
@@ -163,37 +160,10 @@
 		showAsNormal();
 	});
 	
-	$("#input-name").blur(function(){
-		if($('#input-name').val()==''){
-			showAsError("请输入房间号");
-			return;
-		}
-		if($('#input-name').val()==oldName){
-			showAsOK();
-			return;
-		}
-		$.ajax({
-			url:"${pageContext.request.contextPath}/room/isExist",
-			type:"POST",
-			data: "name="+$('#input-name').val(),
-			dataType: "text",
-			success: function(msg){
-				if (msg == '') {
-					showAsOK();
-				} else {
-					showAsError(msg);
-				}
-			}
-		});
-	});
-	
 	$('#editRoomForm').submit(function(){
-		if($('#input-name').val()==''){
-			showAsError("请输入房间号");
-			return false;
-		}
 		if($('#input-name').val()==oldName){
 			showAsOK();
+			$("#editRoomDialog").modal('hide');
 			return false;
 		}
 		var ret;

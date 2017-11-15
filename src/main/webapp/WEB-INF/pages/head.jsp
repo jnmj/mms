@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 	
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container-fluid">
+		<div class="container-fluid ">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="${pageContext.request.contextPath}/index">Project Name</a>
 			</div>

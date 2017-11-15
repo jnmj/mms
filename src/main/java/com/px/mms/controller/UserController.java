@@ -33,6 +33,13 @@ public class UserController {
 	@Autowired
 	private DepartmentService departmentService;
 		
+	@RequestMapping("/validatePassword")
+	@ResponseBody
+	public String validatePassword(String id, String password) {
+		Integer ret = service.validatePassword(id, password);
+		return ret.toString();
+	}
+	
 	@RequestMapping("/add")
 	public String addUser(Person person, Model model) {
 		if(person.getId()!=null) {
@@ -69,7 +76,7 @@ public class UserController {
 			return "modifyProfile";
 		}else {
 			service.updateUser(person, null);
-			return "redirect: /index";
+			return "redirect:/index";
 		}
 	}
 	

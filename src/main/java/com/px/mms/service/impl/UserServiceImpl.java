@@ -58,6 +58,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public Integer validatePassword(String id, String password) {
+		PersonExample example = new PersonExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andIdEqualTo(id);
+		criteria.andPasswordEqualTo(MD5Util.getMD5(password));
+		return mapper.countByExample(example);
+	}
+	
+	@Override
 	@Transactional
 	public void addUser(Person person) {
 		person.setPassword(MD5Util.getMD5(person.getPassword()));
