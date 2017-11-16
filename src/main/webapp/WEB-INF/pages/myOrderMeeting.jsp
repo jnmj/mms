@@ -28,9 +28,14 @@ word-break: break-all;
 <body style="padding-top: 64px;">
 <div style="width:80%; margin:0 auto">
 	<jsp:include page="head.jsp" flush="true" />
-	<jsp:include page="manager-left.jsp" flush="true" />
+	<c:if test="${sessionScope.user.role==0}">
+		<jsp:include page="manager-left.jsp" flush="true" />
+	</c:if>
+	<c:if test="${sessionScope.user.role==1}">
+		<jsp:include page="user-left.jsp" flush="true" />
+	</c:if>
 
-	<div style="width: 80%; display: inline-block; vertical-align: top">
+	<div class="pull-right" style="width: 80%; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
 			<li class="active">个人中心</li>

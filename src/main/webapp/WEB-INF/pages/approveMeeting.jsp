@@ -28,9 +28,14 @@ word-break: break-all;
 <body style="padding-top: 64px;">
 <div style="width:80%; margin:0 auto">
 	<jsp:include page="head.jsp" flush="true" />
-	<jsp:include page="manager-left.jsp" flush="true" />
+	<c:if test="${sessionScope.user.role==0}">
+		<jsp:include page="manager-left.jsp" flush="true" />
+	</c:if>
+	<c:if test="${sessionScope.user.role==1}">
+		<jsp:include page="user-left.jsp" flush="true" />
+	</c:if>
 
-	<div style="width: 80%; display: inline-block; vertical-align: top">
+	<div class="pull-right" style="width: 80%; display: inline-block; vertical-align: top">
 
 		<ol class="breadcrumb">
 			<li class="active">会议管理</li>
@@ -153,7 +158,7 @@ word-break: break-all;
 				<div class="modal-body" style="padding-bottom: 0px">
 						
 				</div>
-				<div class="modal-footer" style="border-top-width: 0px">
+				<div class="modal-footer" style="border-top-width: 0px; padding-top:0px">
 					<button data-dismiss="modal"
 						class="btn btn-primary center-block"
 						style="padding-left: 20px; padding-right: 20px">确定</button>
@@ -222,9 +227,12 @@ $(".btn-pass").bind("click", function(){
 			}else{
 				var str="";
 				$.each(obj, function(index, val){
-					str=str+(index+1)+".&nbsp;房间号:&nbsp;"+val.room.name+"<br>"+
-					"&nbsp;&nbsp;&nbsp;&nbsp;开始时间:&nbsp;"+val.startTime
-					+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结束时间:&nbsp;"+val.endTime+"<br>";
+					str=str+(index+1)+".&nbsp;房间号:&nbsp;"+val.room.name
+					+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;申请人:&nbsp;"+val.promoter.name+"<br>"
+					+"&nbsp;&nbsp;&nbsp;&nbsp;开始时间:&nbsp;"+val.startTime
+					+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结束时间:&nbsp;"+val.endTime+"<br>"
+					+"<div style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>"+
+					"&nbsp;&nbsp;&nbsp;&nbsp;说明:&nbsp;"+val.introduction+"</div><br>";
 				});
 				//console.log(str);
 				$(".modal-body").html(str);

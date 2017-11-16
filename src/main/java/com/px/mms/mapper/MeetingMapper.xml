@@ -11,6 +11,7 @@
     <result column="promoter_id" jdbcType="VARCHAR" property="promoterId" />
     <result column="room_id" jdbcType="VARCHAR" property="roomId" />
     <association property="room" column="room_id" select="com.px.mms.dao.RoomMapper.selectByPrimaryKey"></association>
+    <association property="promoter" column="promoter_id" select="com.px.mms.dao.PersonMapper.selectByPrimaryKey"></association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -276,35 +277,35 @@
   
   <select id="selectMeetingWithUserByPageByPromoter" resultMap="resultMapWithUser">
   		select m.*, p.id p_id, p.name from
-  		(select * from meeting where promoter_id=#{0} limit #{1},#{2}) m inner join person_meeting pm 
+  		(select * from meeting where promoter_id=#{0} order by start_time limit #{1},#{2}) m inner join person_meeting pm 
   		on m.id=pm.meeting_id inner join person p on p.id=pm.person_id 
   		order by m.start_time, convert(p.name using gbk) 
   </select>
   
   <select id="selectMeetingWithUserByPageByStatusByJoiner" resultMap="resultMapWithUser">
   		select m.*, p.id p_id, p.name from
-  		(select * from meeting where status=#{0} and id in(select pm_in.meeting_id from (select* from person where id=#{1}) p_in 
+  		(select * from meeting where end_time > now() and status=#{0} and id in(select pm_in.meeting_id from (select* from person where id=#{1}) p_in 
   		inner join person_meeting pm_in ON p_in.id=pm_in.person_id)
-  		 limit #{2},#{3}) m inner join person_meeting pm 
+  		 order by start_time limit #{2},#{3}) m inner join person_meeting pm 
   		on m.id=pm.meeting_id inner join person p on p.id=pm.person_id 
   		order by m.start_time, convert(p.name using gbk) 
   </select>
   
   <select id="countMeetingByStatusByJoiner" resultType="java.lang.Integer">
-  	(SELECT count(*) FROM meeting WHERE STATUS=#{0} AND id IN(SELECT pm_in.meeting_id FROM (SELECT* FROM person WHERE id=#{1}) 
+  	(SELECT count(*) FROM meeting WHERE end_time > now() and STATUS=#{0} AND id IN(SELECT pm_in.meeting_id FROM (SELECT* FROM person WHERE id=#{1}) 
   	p_in INNER JOIN person_meeting pm_in ON p_in.id=pm_in.person_id))
   </select>
   
   <select id="selectMeetingWithUserByPageByStatus" resultMap="resultMapWithUser">
   		select m.*, p.id p_id, p.name from
-  		(select * from meeting where status=#{0} limit #{1},#{2}) m inner join person_meeting pm 
+  		(select * from meeting where start_time > now() and status=#{0} order by start_time limit #{1},#{2}) m inner join person_meeting pm 
   		on m.id=pm.meeting_id inner join person p on p.id=pm.person_id 
   		order by m.start_time, convert(p.name using gbk) 
   </select>
   
   <select id="selectProcessedMeetingWithUserByPage" resultMap="resultMapWithUser">
   		select m.*, p.id p_id, p.name from
-  		(select * from meeting where status in (1,2) limit #{0},#{1}) m inner join person_meeting pm 
+  		(select * from meeting where status in (1,2) or (start_time &lt;= now() and status=0) order by start_time limit #{0},#{1}) m inner join person_meeting pm 
   		on m.id=pm.meeting_id inner join person p on p.id=pm.person_id 
   		order by m.start_time, convert(p.name using gbk) 
   </select>

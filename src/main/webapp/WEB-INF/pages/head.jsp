@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container-fluid ">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="${pageContext.request.contextPath}/index">Project Name</a>
+<nav class="navbar navbar-inverse navbar-fixed-top"  role="navigation">
+		<div class="container-fluid" style="width:80%; margin:0 auto">
+			<div class="navbar-header" >
+				<a class="navbar-brand" href="${pageContext.request.contextPath}/index">xx会议管理系统</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
 				<li><p class="navbar-text">${sessionScope.user.name}(${sessionScope.user.role==0?"管理员":"用户"})</p></li> 

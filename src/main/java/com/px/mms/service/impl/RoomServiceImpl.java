@@ -12,7 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.px.mms.constant.Constant;
+import com.px.mms.dao.MeetingMapper;
+import com.px.mms.dao.PersonMeetingMapper;
 import com.px.mms.dao.RoomMapper;
+import com.px.mms.domain.PersonMeetingExample;
 import com.px.mms.domain.Room;
 import com.px.mms.domain.RoomExample;
 import com.px.mms.domain.RoomExample.Criteria;
@@ -24,6 +27,12 @@ public class RoomServiceImpl implements RoomService {
 
 	@Autowired
 	private RoomMapper mapper;
+	
+	@Autowired
+	private PersonMeetingMapper personMeetingMapper;
+	
+	@Autowired
+	private MeetingMapper meetingMapper;
 	
 	@Override
 	@Transactional

@@ -3,6 +3,8 @@ package com.px.mms.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder.Case;
+
 public class Meeting {
     private String id;
 
@@ -24,6 +26,8 @@ public class Meeting {
 			return "已通过";
 		case 2:
 			return "未通过";
+		case 3:
+	    	return "失效";
 		}
 		return null;
 	}

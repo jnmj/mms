@@ -56,7 +56,7 @@
 	<div class="container">
 
       <form class="form-signin">
-        <h1 class="form-signin-heading" style="text-align: center">projectName</h1>
+        <h1 class="form-signin-heading" style="text-align: center">xx会议管理系统</h1>
         <label for="input-id" class="sr-only">工号</label>
         <input style="margin-top:20px" type="text" id="input-id" class="form-control" placeholder="工 号"  required autofocus>
         <label for="input-password" class="sr-only">密码</label>

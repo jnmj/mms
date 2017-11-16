@@ -48,6 +48,7 @@ public class MeetingServeiceImpl implements MeetingService{
 		personMeetingMapper.insertList(relationList);
 	}
 	
+	//我的预定
 	@Override
 	public MyPageInfo<Meeting> findMeetingWithUserByPromoterByPage(String promoterId, Integer pageNum){
 		int pageSize = Constant.pageSize;
@@ -58,10 +59,17 @@ public class MeetingServeiceImpl implements MeetingService{
 		int totalCount = mapper.selectByExample(example).size();
 		
 		List<Meeting> list = mapper.selectMeetingWithUserByPageByPromoter(promoterId, start, pageSize);
+		Date now = new Date();
+		for(Meeting meeting : list) {
+			if(meeting.getStartTime().before(now) && meeting.getStatus()==0) {
+				meeting.setStatus(3);
+			}
+		}
 		MyPageInfo<Meeting> pageInfo = new MyPageInfo<>(pageNum, pageSize, totalCount, list);
 		return pageInfo;
 	}
 	
+	//我的会议
 	public MyPageInfo<Meeting> findMeetingWithUserByStatusByJoinerByPage(Integer status, String joinerId,
 			Integer pageNum){
 		int pageSize = Constant.pageSize;
@@ -73,20 +81,24 @@ public class MeetingServeiceImpl implements MeetingService{
 		return pageInfo;
 	}
 	
+	//会议审批
 	@Override
 	public MyPageInfo<Meeting> findMeetingWithUserByStatusByPage(Integer status, Integer pageNum){
 		int pageSize = Constant.pageSize;
 		int start = (pageNum-1)*pageSize;
 		MeetingExample example = new MeetingExample();
 		Criteria criteria = example.createCriteria();
+		criteria.andStartTimeGreaterThan(new Date());
 		criteria.andStatusEqualTo(status);
 		int totalCount = mapper.selectByExample(example).size();
 		
 		List<Meeting> list = mapper.selectMeetingWithUserByPageByStatus(status, start, pageSize);
+		
 		MyPageInfo<Meeting> pageInfo = new MyPageInfo<>(pageNum, pageSize, totalCount, list);
 		return pageInfo;
 	}
 	
+	//审批记录
 	@Override
 	public MyPageInfo<Meeting> findProcessedMeetingWithUserByPage(Integer pageNum){
 		int pageSize = Constant.pageSize;
@@ -100,6 +112,12 @@ public class MeetingServeiceImpl implements MeetingService{
 		int totalCount = mapper.selectByExample(example).size();
 		
 		List<Meeting> list = mapper.selectProcessedMeetingWithUserByPage(start, pageSize);
+		Date now = new Date();
+		for(Meeting meeting : list) {
+			if(meeting.getStartTime().before(now) && meeting.getStatus()==0) {
+				meeting.setStatus(3);
+			}
+		}
 		MyPageInfo<Meeting> pageInfo = new MyPageInfo<>(pageNum, pageSize, totalCount, list);
 		return pageInfo;
 	}
@@ -114,6 +132,7 @@ public class MeetingServeiceImpl implements MeetingService{
 	public List<Meeting> validateDateTime(String id, String roomId, Date startTime, Date endTime) {
 		MeetingExample example1 = new  MeetingExample();
 		Criteria criteria1 = example1.createCriteria();
+		criteria1.andStatusEqualTo(1);
 		criteria1.andIdNotEqualTo(id);
 		criteria1.andRoomIdEqualTo(roomId);
 		criteria1.andStartTimeGreaterThanOrEqualTo(startTime);
@@ -122,6 +141,7 @@ public class MeetingServeiceImpl implements MeetingService{
 		
 		MeetingExample example2 = new  MeetingExample();
 		Criteria criteria2 = example2.createCriteria();
+		criteria2.andStatusEqualTo(1);
 		criteria2.andRoomIdEqualTo(roomId);
 		criteria2.andStartTimeLessThan(startTime);
 		criteria2.andEndTimeGreaterThan(startTime);
