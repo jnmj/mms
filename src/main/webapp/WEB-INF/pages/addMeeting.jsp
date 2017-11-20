@@ -34,17 +34,19 @@
 </style>
 </head>
 <body style="padding-top: 64px;">
-<div style="width:80%; margin:0 auto">
-	<jsp:include page="head.jsp" flush="true" />
+<jsp:include page="head.jsp" flush="true" />
+	
+	<div class="row">
+	<div class="col-xs-2 col-xs-offset-1">
 	<c:if test="${sessionScope.user.role==0}">
 		<jsp:include page="manager-left.jsp" flush="true" />
 	</c:if>
+	
 	<c:if test="${sessionScope.user.role==1}">
 		<jsp:include page="user-left.jsp" flush="true" />
 	</c:if>
-
-	<div class="pull-right" style="width: 80%; display: inline-block; vertical-align: top">
-
+	</div>
+	<div class="col-xs-8">
 		<ol class="breadcrumb">
 			<li class="active">会议管理</li>
 			<li class="active">预定会议</li>
@@ -54,8 +56,8 @@
 				action="${pageContext.request.contextPath}/meeting/add"
 				class="form-horizontal" role="form" method="post">
 				<div class="form-group" style="margin-bottom: 26px">
-					<label for="select-room" class="col-sm-3 control-label">房间号</label>
-					<div class="col-sm-3">
+					<label for="select-room" class="col-xs-3 control-label">房间号</label>
+					<div class="col-md-3 col-xs-4">
 						<select name="roomId" class="form-control" id="select-room">
 							<c:forEach items="${rooms}" var="room">
 								<option value="${room.id }">${room.name }</option>
@@ -64,8 +66,8 @@
 					</div>
 				</div>
 				<div class="form-group has-feedback reduce-margin">
-					<label for="input-startTime" class="col-sm-3 control-label">开始时间</label>
-					<div class="col-sm-7">
+					<label for="input-startTime" class="col-xs-3 control-label">开始时间</label>
+					<div class="col-xs-7">
 						<input type="text" class="form-control" id="input-startTime"
 							name="startTime" data-date-format="yyyy-mm-dd hh:ii" required>
 						<span id="span-icon-startTime"
@@ -75,8 +77,8 @@
 
 				</div>
 				<div class="form-group has-feedback reduce-margin">
-					<label for="input-endTime" class="col-sm-3 control-label">结束时间</label>
-					<div class="col-sm-7">
+					<label for="input-endTime" class="col-xs-3 control-label">结束时间</label>
+					<div class="col-xs-7">
 						<input type="text" class="form-control" id="input-endTime"
 							name="endTime" data-date-format="yyyy-mm-dd hh:ii" required>
 						<span id="span-icon-endTime"
@@ -86,8 +88,8 @@
 
 				</div>
 				<div class="form-group has-feedback" style="margin-bottom: 26px">
-					<label for="textarea-introduction" class="col-sm-3 control-label">说明</label>
-					<div class="col-sm-7">
+					<label for="textarea-introduction" class="col-xs-3 control-label">说明</label>
+					<div class="col-xs-7">
 						<textarea id="textarea-introduction" class="form-control" rows="3"
 							name="introduction" maxlength="200" style="resize: none" required></textarea>
 					</div>
@@ -95,8 +97,9 @@
 				</div>
 				
 				<div class="form-group has-feedback reduce-margin"  >
-					<label class="col-sm-3 control-label">参会人员</label>
-					<div class="col-sm-7" style="height:260px; overflow:auto; border:1px solid #bbb; border-radius:4px; margin-left:16px; width: 266px">
+					<label class="col-xs-3 control-label">参会人员</label>
+					<div class="col-xs-7">
+					<div class="form-control" style="height:200px; overflow:auto; border:1px solid #bbb; border-radius:4px;">
 						<c:forEach items="${departments}" var="department">
 							<div>
 							<input class="outerCheckbox" type="checkbox"
@@ -113,14 +116,20 @@
 							</div>
 						</c:forEach>
 					</div>
+					</div>
 				</div>
-				<button id="button-all" style="margin-left:129px" type="button" onclick="allChecked()">全选</button>
+				<div class="form-group reduce-margin">
+				<div class="col-xs-9 col-xs-offset-3">
+				<button id="button-all" type="button" onclick="allChecked()">全选</button>
 				<button id="button-un" type="button" onclick="allUnChecked()">反选</button>
 				<span id="span-add-user" style="color: red; visibility:hidden">请添加参会人员</span>
+				</div>
+				</div>
 				<input name="promoterId" value="${sessionScope.user.id}"
 					style="display: none">
+					
 				<div class="form-group">
-					<div class="col-sm-offset-3 col-sm-7">
+					<div class="col-xs-offset-3 col-xs-7">
 						<button type="submit" class="btn btn-primary pull-right"
 							style="padding-left: 26px; padding-right: 26px">确定</button>
 					</div>

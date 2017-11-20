@@ -21,17 +21,19 @@
 </style>
 </head>
 <body style="padding-top: 64px;">
-<div style="width:80%; margin:0 auto">
-	<jsp:include page="head.jsp" flush="true" />
+<jsp:include page="head.jsp" flush="true" />
+	
+	<div class="row">
+	<div class="col-xs-2 col-xs-offset-1">
 	<c:if test="${sessionScope.user.role==0}">
 		<jsp:include page="manager-left.jsp" flush="true" />
 	</c:if>
+	
 	<c:if test="${sessionScope.user.role==1}">
 		<jsp:include page="user-left.jsp" flush="true" />
 	</c:if>
-
-	<div class="pull-right" style="width: 80%; display: inline-block; vertical-align: top">
-
+	</div>
+	<div class="col-xs-8">
 		<ol class="breadcrumb">
 			<li class="active">人事管理</li>
 			<li class="active">查看员工</li>
@@ -133,16 +135,16 @@
 					<form id="form-editUser" action="${pageContext.request.contextPath}/user/update" class="form-horizontal" role="form"
 						method="post">
 						<div class="form-group has-feedback reduce-margin">
-							<label for="input-id" class="col-sm-3 control-label">工号</label>
-							<div class="col-sm-7">
+							<label for="input-id" class="col-xs-3 control-label">工号</label>
+							<div class="col-xs-7">
 								<input type="text" class="form-control" id="input-id" name="id" maxlength="10" placeholder="请输入10位工号" required
 									readonly="readonly"> <span id="span-icon-id" class="glyphicon form-control-feedback"></span> <span class="err-info">提示信息</span>
 							</div>
 
 						</div>
 						<div class="form-group has-feedback reduce-margin">
-							<label for="input-name" class="col-sm-3 control-label">姓名</label>
-							<div class="col-sm-7">
+							<label for="input-name" class="col-xs-3 control-label">姓名</label>
+							<div class="col-xs-7">
 								<input type="text" class="form-control" id="input-name" maxlength="8" name="name" placeholder="请输入姓名" required> <span
 									id="span-icon-name" class="glyphicon form-control-feedback"></span> <span class="err-info">提示信息</span>
 							</div>
@@ -150,16 +152,16 @@
 						</div>
 
 						<div class="form-group has-feedback reduce-margin">
-							<label for="input-phone" class="col-sm-3 control-label">手机号</label>
-							<div class="col-sm-7">
+							<label for="input-phone" class="col-xs-3 control-label">手机号</label>
+							<div class="col-xs-7">
 								<input type="text" class="form-control" id="input-phone" maxlength="11" name="phone" placeholder="请输入手机号" required>
 								<span id="span-icon-phone" class="glyphicon form-control-feedback"></span> <span class="err-info">提示信息</span>
 							</div>
 
 						</div>
 						<div class="form-group has-feedback reduce-margin">
-							<label for="input-email" class="col-sm-3 control-label">邮箱</label>
-							<div class="col-sm-7">
+							<label for="input-email" class="col-xs-3 control-label">邮箱</label>
+							<div class="col-xs-7">
 								<input type="text" class="form-control" id="input-email" maxlength="32" name="email" placeholder="请输入邮箱" required> <span
 									id="span-icon-email" class="glyphicon form-control-feedback"></span> <span class="err-info">提示信息</span>
 							</div>
@@ -168,8 +170,8 @@
 
 
 						<div class="form-group" style="margin-bottom: 26px">
-							<label for="select-role" class="col-sm-3 control-label">角色</label>
-							<div class="col-sm-7" style="width: 44%">
+							<label for="select-role" class="col-xs-3 control-label">角色</label>
+							<div class="col-xs-7" style="width: 44%">
 								<select name="role" class="form-control" id="select-role">
 									<option value="1">用户</option>
 									<option value="0">管理员</option>
@@ -178,15 +180,15 @@
 						</div>
 
 						<div class="form-group" style="margin-bottom: 12px">
-							<label for="select-department" class="col-sm-3 control-label">部门</label>
-							<div class="col-sm-7" style="width: 44%">
+							<label for="select-department" class="col-xs-3 control-label">部门</label>
+							<div class="col-xs-7" style="width: 44%">
 								<select name="departmentId" class="form-control" id="select-department">
 
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-sm-offset-3 col-sm-7">
+							<div class="col-xs-offset-3 col-xs-7">
 								<!-- <div class="checkbox" style="padding-top: 0px"> -->
 								<label class="control-label" style="padding-top: 10px"> <input type="checkbox" name="resetPassword" value="1"><font
 									style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; color: #333; font-weight: bold; padding-left: 6px">重置密码</font>

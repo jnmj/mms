@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-<div class="sidebar-nav" style="display: inline-block; width: 200px">
+<div class="sidebar-nav">
 				<ul class="nav nav-list ">
 					<li>
 						<a href="#user-menu" class="nav-header" data-toggle="collapse" style="font-size:16px"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;个人中心</a> 

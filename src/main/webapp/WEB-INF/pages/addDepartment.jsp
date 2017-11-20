@@ -15,18 +15,19 @@
 
 </head>
 <body style="padding-top: 64px">
-<div style="width:80%; margin:0 auto">
-	<jsp:include page="head.jsp" flush="true" />
+<jsp:include page="head.jsp" flush="true" />
+	
+	<div class="row">
+	<div class="col-xs-2 col-xs-offset-1">
 	<c:if test="${sessionScope.user.role==0}">
 		<jsp:include page="manager-left.jsp" flush="true" />
 	</c:if>
+	
 	<c:if test="${sessionScope.user.role==1}">
 		<jsp:include page="user-left.jsp" flush="true" />
 	</c:if>
-	
-
-	<div class="pull-right" style="width: 80%; display: inline-block; vertical-align: top">
-
+	</div>
+	<div class="col-xs-8">
 		<ol class="breadcrumb">
 			<li class="active">人事管理</li>
 			<li class="active">添加部门</li>
@@ -37,8 +38,8 @@
 				action="${pageContext.request.contextPath}/department/add"
 				class="form-horizontal" method="post">
 				<div id="form-group-add" class="form-group has-feedback" style="margin-bottom: 0px">
-					<label for="input-add" class="col-sm-3 control-label">部门名</label>
-					<div class="col-sm-8">
+					<label for="input-add" class="col-xs-3 control-label">部门名</label>
+					<div class="col-xs-8">
 						<input name="name" type="text" class="form-control" id="input-name"
 							maxlength="24" placeholder="请输入部门名" required autofocus>
 							<span id="span-icon" class="glyphicon form-control-feedback"></span>
@@ -48,7 +49,7 @@
 
 				</div>
 				<div class="form-group">
-					<div class="col-sm-offset-3 col-sm-8">
+					<div class="col-xs-offset-3 col-xs-8">
 						<button id="btn-add" type="submit" class="btn btn-sm btn-primary pull-right"
 						style="padding-left: 20px; padding-right: 20px">添加</button>
 					</div>

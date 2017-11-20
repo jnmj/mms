@@ -26,17 +26,19 @@ word-break: break-all;
 </style>
 </head>
 <body style="padding-top: 64px;">
-<div style="width:80%; margin:0 auto">
-	<jsp:include page="head.jsp" flush="true" />
+<jsp:include page="head.jsp" flush="true" />
+	
+	<div class="row">
+	<div class="col-xs-2 col-xs-offset-1">
 	<c:if test="${sessionScope.user.role==0}">
 		<jsp:include page="manager-left.jsp" flush="true" />
 	</c:if>
+	
 	<c:if test="${sessionScope.user.role==1}">
 		<jsp:include page="user-left.jsp" flush="true" />
 	</c:if>
-
-	<div class="pull-right" style="width: 80%; display: inline-block; vertical-align: top">
-
+	</div>
+	<div class="col-xs-8">
 		<ol class="breadcrumb">
 			<li class="active">会议管理</li>
 			<li class="active">会议审批</li>
@@ -47,13 +49,13 @@ word-break: break-all;
 				<thead>
 					<tr>
 						
-						<th class="col-md-2">说明</th>
-						<th class="col-md-1">房间号</th>
-						<th class="col-md-2">开始时间</th>
-						<th class="col-md-2">结束时间</th>
-						<th class="col-md-1">申请人</th>
-						<th class="col-md-1">参会</th>
-						<th class="col-md-3" style="padding-left:20px">操作</th>
+						<th class="col-xs-2">说明</th>
+						<th class="col-xs-1">房间号</th>
+						<th class="col-xs-2">开始时间</th>
+						<th class="col-xs-2">结束时间</th>
+						<th class="col-xs-1">申请人</th>
+						<th class="col-xs-1">参会</th>
+						<th class="col-xs-3" style="padding-left:20px">操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -61,14 +63,14 @@ word-break: break-all;
 						<tr>
 							<td class="td-id" style="display:none">${item.id}</td>
 							<td class="td-roomId" style="display:none">${item.room.id}</td>
-							<td class="col-md-2 len-limit">${item.introduction}</td>
-							<td class="col-md-1">${item.room.name}</td>
-							<td class="col-md-2 td-startTime"><fmt:formatDate value="${item.startTime }"
+							<td class="col-xs-2 len-limit">${item.introduction}</td>
+							<td class="col-xs-1">${item.room.name}</td>
+							<td class="col-xs-2 td-startTime"><fmt:formatDate value="${item.startTime }"
 									pattern="yyyy-MM-dd HH:mm" /></td>
-							<td class="col-md-2 td-endTime"><fmt:formatDate value="${item.endTime }"
+							<td class="col-xs-2 td-endTime"><fmt:formatDate value="${item.endTime }"
 									pattern="yyyy-MM-dd HH:mm" /></td>
-							<td class="col-md-1 len-limit">${item.promoter.name}</td>
-							<td class="col-md-1">
+							<td class="col-xs-1 len-limit">${item.promoter.name}</td>
+							<td class="col-xs-1">
 							
 								<button type="button" class="btn btn-primary btn-xs btn-joiner"
 								title="参会人员"  
@@ -85,7 +87,7 @@ word-break: break-all;
 								</button>
 								
 							</td>
-							<td class="col-md-3" style="padding-left:20px">
+							<td class="col-xs-3" style="padding-left:20px">
 								<button type="button" class="btn btn-warning btn-xs btn-introduction"
 								title="会议说明" 
 								data-container="body" data-toggle="popover" data-placement="right" 

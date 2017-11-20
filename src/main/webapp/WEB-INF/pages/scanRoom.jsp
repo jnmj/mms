@@ -12,35 +12,37 @@
 
 </head>
 <body style="padding-top: 64px;">
-<div style="width:80%; margin:0 auto">
-	<jsp:include page="head.jsp" flush="true" />
+<jsp:include page="head.jsp" flush="true" />
+	
+	<div class="row">
+	<div class="col-xs-2 col-xs-offset-1">
 	<c:if test="${sessionScope.user.role==0}">
 		<jsp:include page="manager-left.jsp" flush="true" />
 	</c:if>
+	
 	<c:if test="${sessionScope.user.role==1}">
 		<jsp:include page="user-left.jsp" flush="true" />
 	</c:if>
-
-	<div class="pull-right" style="width: 80%; display: inline-block; vertical-align: top">
-
+	</div>
+	<div class="col-xs-8">
 		<ol class="breadcrumb">
 			<li class="active">会议管理</li>
 			<li class="active">查看会议室</li>
 		</ol>
 
-		<div style="width: 40%">
+		<div style="width: 60%">
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th class="col-md-8">房间号</th>
-						<th class="col-md-4">操作</th>
+						<th class="col-xs-8">房间号</th>
+						<th class="col-xs-4">操作</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${pageInfo.list}" var="item">
 						<tr>
-							<td class="col-md-8">${item.name}</td>
-							<td class="col-md-4"><a style="text-decoration: none" href="#">
+							<td class="col-xs-8">${item.name}</td>
+							<td class="col-xs-4"><a style="text-decoration: none" href="#">
 									<button type="button" class="btn-modify btn btn-primary btn-xs"
 									data-toggle="modal" data-target="#editRoomDialog">
 										修改<span class="glyphicon glyphicon-pencil"></span>
@@ -114,9 +116,9 @@
 						name="editDepartmentForm" method="POST">
 
 						<div id="form-group-modify" class="form-group has-feedback" style="margin-bottom:0px">
-							<label class="control-label col-sm-3" for="input-name">
+							<label class="control-label col-xs-3" for="input-name">
 								房间号 </label>
-							<div class="col-sm-7">
+							<div class="col-xs-7">
 								<input type="text" class="form-control" id="input-name"
 									maxlength="24" name="name" required> 
 									<span id="span-icon" class="glyphicon form-control-feedback"></span>
