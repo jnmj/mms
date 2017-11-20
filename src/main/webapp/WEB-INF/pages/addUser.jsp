@@ -27,7 +27,6 @@
 <body style="padding-top: 64px;">
 <jsp:include page="head.jsp" flush="true" />
 	
-	<div class="row">
 	<div class="col-xs-2 col-xs-offset-1">
 	<c:if test="${sessionScope.user.role==0}">
 		<jsp:include page="manager-left.jsp" flush="true" />
@@ -143,7 +142,6 @@
 	</div>
 
 
-</div>
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
